@@ -11,8 +11,8 @@ then
  git clone https://github.com/iissnan/hexo-theme-next  /usr/local/nginx/html/Blog/themes/next
 fi
 # git reset --hard HEAD
-git checkout -- /usr/local/nginx/html/Blog/public/*
-git checkout -- /usr/local/nginx/html/Blog/deploy.*
+#git checkout -- /usr/local/nginx/html/Blog/public/*
+#git checkout -- /usr/local/nginx/html/Blog/deploy.*
 git pull origin master:master -f
 chmod 755  /usr/local/nginx/html/Blog/deploy.sh
 chmod 755  /usr/local/nginx/html/Blog/deploy.exp

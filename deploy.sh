@@ -1,6 +1,10 @@
 #!/bin/bash
 cd /usr/local/nginx/html/Blog
 chmod 755 ls /usr/local/nginx/html/Blog/deploy.exp
+if [ ! -d /usr/local/nginx/html/Blog/themes/next/ ]
+then
+ mkdir -p /usr/local/nginx/html/Blog/themes/next/
+fi
 count=`ls /usr/local/nginx/html/Blog/themes/next/|wc -w`
 if [ $count -eq 0 ]
 then

@@ -6,7 +6,8 @@ if [ "$count" < "0" ];
 then
  git clone https://github.com/iissnan/hexo-theme-next themes/next
  fi
- git pull origin master:master
+# git reset --hard HEAD
+ git pull origin master:master -f
  hexo clean
  hexo generate
  hexo deploy

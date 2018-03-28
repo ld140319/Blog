@@ -1,6 +1,6 @@
 #!/bin/bash
 cd /usr/local/nginx/html/Blog
-chmod 755 ls /usr/local/nginx/html/Blog/deploy.exp
+chmod 755  /usr/local/nginx/html/Blog/deploy.*
 if [ ! -d /usr/local/nginx/html/Blog/themes/next/ ]
 then
  mkdir -p /usr/local/nginx/html/Blog/themes/next/

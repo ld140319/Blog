@@ -13,6 +13,8 @@ fi
 # git reset --hard HEAD
 #git checkout -- /usr/local/nginx/html/Blog/public/*
 #git checkout -- /usr/local/nginx/html/Blog/deploy.*
+git checkout -- /usr/local/nginx/html/Blog/deploy.sh
+git checkout -- /usr/local/nginx/html/Blog/deploy.exp
 git pull origin master:master -f
 chmod 755  /usr/local/nginx/html/Blog/deploy.sh
 chmod 755  /usr/local/nginx/html/Blog/deploy.exp

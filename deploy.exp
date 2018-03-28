@@ -3,6 +3,6 @@ set timeout -1
 spawn ssh root@118.24.47.193
 expect "*assword:*" {send "52013141220@\r"}
 expect "Last*"
-send "cd /usr/local/nginx/html/Blog && bash deploy.sh\r"
+send "cd /usr/local/nginx/html/Blog && bash  /usr/local/nginx/html/Blog/deploy.sh\r"
 expect eof
 exit

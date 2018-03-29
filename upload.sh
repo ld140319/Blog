@@ -11,6 +11,7 @@ result=$(echo $line | grep "source/")
 if [[ "$result" != "" ]]
 then
   file=${dir}${result}
+  echo $file
   if [ -e $file ]
   then
      scp $file root@118.24.47.193:/usr/local/nginx/html/Blog/source/_posts

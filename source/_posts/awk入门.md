@@ -102,5 +102,19 @@ GNU/Linux发布的AWK目前由自由软件基金会（FSF）进行开发和维�
         awk '{print}' marks.txt
         awk '{print $0}' marks.txt
     
-    ![显示该文件的完整内容](awk入门/显示该文件的完整内容.png)
+![显示该文件的完整内容](awk入门/显示该文件的完整内容.png)
+
+    (2)显示含a的行
+            
+            awk '/a/ {print}' marks.txt
+            awk '/a/ {print $0}' marks.txt
+    
+![含a的行](awk入门/含a的行.png)
+
+    (3)显示不含a的行
+            
+            awk '!/a/ {print}' marks.txt
+            awk '!/a/ {print $0}' marks.txt
+    
+![不含a的行](awk入门/不含a的行.png)
         

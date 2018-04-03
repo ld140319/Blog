@@ -18,8 +18,8 @@ categories:
 <li><a href="#substr">字符串截取</a></li>
 <li><a href="#delete">字符串删除</a></li>
 <li><a href="#replace">字符串替换</a></li>
-<li><a href="#index">查找单个字符的位置</a></li>
-<li><a href="#split">分割字符串</a></li>
+<li><a href="#index">字符串索引</a></li>
+<li><a href="#split">split字符串</a></li>
 <li><a href="#match">从字符串开始的位置匹配子串的长度</a></li>
 </ul>
 ---
@@ -44,16 +44,18 @@ categories:
     
  <h2 id="length">字符串长度</h2> 
    
-   <span style="color:red;">${#str}</span>
+   <span style="color:red;">echo "${ #str}"</span>
    
    <span style="color:red;">expr length $str</span>
    
     str="string"
     
     echo ${#str}
+    
     echo `expr length $str`
     
     str="abc,def,ghi,abcjkl"  
+    
     echo ${#str}
     
   <h2 id="substr">字符串截取</h2>  
@@ -145,7 +147,7 @@ categories:
         echo ${str/%b*l/TEST}  
     #aTEST 
     
-<h2 id="index">查找单个字符的位置</h2>
+<h2 id="index">字符串索引</h2>
 
     #求字符串中元素的下标索引，如果元素不存在输出0（因为此时索引从1开始）
     

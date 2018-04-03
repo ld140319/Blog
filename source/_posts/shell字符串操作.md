@@ -19,7 +19,7 @@ categories:
 <li><a href="#delete">字符串删除</a></li>
 <li><a href="#replace">字符串替换</a></li>
 <li><a href="#index">查找单个字符的位置</a></li>
-<li><a href="#split">split字符串</a></li>
+<li><a href="#split">分割字符串</a></li>
 <li><a href="#match">从字符串开始的位置匹配子串的长度</a></li>
 </ul>
 ---

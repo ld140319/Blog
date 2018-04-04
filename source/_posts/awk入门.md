@@ -28,6 +28,8 @@ categories:
 <li><a href="#redirect">输出重定向</a></li>
 <li><a href="#pipeline">管道</a></li>
 <li><a href="#test">例子</a></li>
+<li><a href="#example">示例</a></li>
+<li><a href="#link">参考地址</a></li>
 </ul>
 
 <h2 id="Introduce">介绍</h2>
@@ -335,6 +337,29 @@ BEGIN 和 END 同为awk中的一种 Pattern. 以 BEGIN 为 Pattern的Actions ,�
        arr[0] = 1; arr[1] = 2; arr[2] = 3; for (i in arr) printf "arr[%d] = %d\n", i, arr[i]
     }'
     
+    awk 'BEGIN {
+       fruits["mango"] = "yellow";
+       fruits["orange"] = "orange"
+       print fruits["orange"] "\n" fruits["mango"]
+    }'
+
+    awk 'BEGIN {
+       array["0,0"] = 100;
+       array["0,1"] = 200;
+       array["0,2"] = 300;
+       array["1,0"] = 400;
+       array["1,1"] = 500;
+       array["1,2"] = 600;
+     
+       # print array elements
+       print "array[0,0] = " array["0,0"];
+       print "array[0,1] = " array["0,1"];
+       print "array[0,2] = " array["0,2"];
+       print "array[1,0] = " array["1,0"];
+       print "array[1,1] = " array["1,1"];
+       print "array[1,2] = " array["1,2"];
+    }'
+
     (11)正则表达式操作符
     
     正则表达式操作符使用 ~ 和 !~ 分别代表匹配和不匹配
@@ -444,6 +469,8 @@ awk output 指令有 print, printf() 二个.
 &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:red;">awk 'BEGIN{ "date" | getline d; print d}'</span>
     
         执行linux的date命令，并通过管道输出给getline，然后再把输出赋值给自定义变量d，并打印它。
+        
+---
 
 &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:red;">awk 'BEGIN{"date" | getline d; split(d,mon); print mon[2]}'</span>  
     
@@ -452,84 +479,146 @@ awk output 指令有 print, printf() 二个.
    
         执行shell的date命令，并通过管道输出给getline，然后getline从管道中读取并将输入赋值给d，split函数把变量d转化成数组mon，然后打印数组mon的第二个元素。
 
+---
+
 &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:red;">awk 'BEGIN{while( "ls" | getline) print}'
 &nbsp;&nbsp;&nbsp;&nbsp;<span style="color:red;">awk 'BEGIN{while( "ls" | getline d) print d}'</span>
     
         命令ls的输出传递给geline作为输入，循环使getline从ls的输出中读取一行，并把它打印到屏幕。这里没有输入文件，因为BEGIN块在打开输入文件前执行，所以可以忽略输入文件。
 
-<strong style="color:red;font-size:18px;">
+---
     #!/bin/awk
     BEGIN {
-&nbsp;&nbsp;&nbsp;&nbsp;FS=":"
-&nbsp;&nbsp;&nbsp;&nbsp;printf "What is your name?"; getline name < "/dev/tty"
+        FS=":"
+        printf "What is your name?"; getline name < "/dev/tty"
     }
     {
-&nbsp;&nbsp;&nbsp;&nbsp;if ($1 ~ name) print "Found name on line ", NR
+        if ($1 ~ name) print "Found name on line ", NR
     }
     END{print "See you," name}
-    awk -f command.awk /etc/passwd
-</strong>
-
     
+    awk -f command.awk /etc/passwd
+
         在屏幕上打印”What is your name?",并等待用户应答。当一行输入完毕后，getline函数从终端接收该行输入，并把它储存在自定义变量name中。如果第一个域匹配变量name的值，print函数就被执行，END块打印See you和name的值。
         
-<strong style="color:red;font-size:18px;">
-       awk 'BEGIN {
-        while ((getline one < "/etc/passwd")> 0){
-            &nbsp;&nbsp;&nbsp;&nbsp;lc++; 
-            &nbsp;&nbsp;&nbsp;&nbsp;print one
-        }
-        &nbsp;&nbsp;&nbsp;&nbsp;print lc
-      }'
-    wc -l "/etc/passwd" 
-</strong>
+ ---       
+    awk 'BEGIN {
+            while ((getline one < "/etc/passwd")> 0){
+                lc++; 
+                print one
+            }
+            print lc
+          }'
+
+    wc -l "/etc/passwd"
     
         awk将逐行读取文件/etc/passwd的内容，在到达文件末尾前，计数器lc一直增加，当到末尾时，打印lc的值。注意，如果文件不存在，getline返回-1，如果到达文件的末尾就返回0，如果读到一行，就返回1，所以命令 while (getline < "/etc/passwd")在文件不存在的情况下将陷入无限循环，因为返回-1表示逻辑真。
 
-    可以在awk中打开一个管道，且同一时刻只能有一个管道存在。通过close()可关闭管道。
+---
+        可以在awk中打开一个管道，且同一时刻只能有一个管道存在。通过close()可关闭管道。
     
     如：$ awk 'BEGIN{FS=":"}{print $1, $2 | "sort" }END{close("sort")}' /etc/passwd
     
     awk把print语句的输出通过管道作为linux命令sort的输入,END块执行关闭管道操作。
-<strong style="color:red;font-size:18px;">
-BEGIN {
-&nbsp;&nbsp;&nbsp;&nbsp;"date" | getline current_time
-&nbsp;&nbsp;&nbsp;&nbsp;close("date")
-&nbsp;&nbsp;&nbsp;&nbsp;print "Report printed on " current_time
-}
+
+    BEGIN {
+        "date" | getline current_time
+        close("date")
+        print "Report printed on " current_time
+    }
         
-awk '{print \$1, \$2 | "sort" }END {close("sort")}' mark.txt
-awk '{print \$1, \$2 | "sort -r" }END {close("sort -r")}' mark.txt
-awk '{print \$1, \$2 | "sort"}END {close("sort")}' mark.txt >>sort.txt
-</strong>
-        
-        
-        
-        
+    awk '{print \$1, \$2 | "sort" }END {close("sort")}' mark.txt
+    awk '{print \$1, \$2 | "sort -r" }END {close("sort -r")}' mark.txt
+    awk '{print \$1, \$2 | "sort"}END {close("sort")}' mark.txt >>sort.txt
+
+---
+
     (2)双向连接(协同进程)
-<strong style="color:red;font-size:18px;">
-awk 'BEGIN {
-&nbsp;&nbsp;&nbsp;&nbsp;cmd = "tr [a-z] [A-Z]"
-&nbsp;&nbsp;&nbsp;&nbsp;print "hello, world !!!" |& cmd
-&nbsp;&nbsp;&nbsp;&nbsp;close(cmd, "to")
-&nbsp;&nbsp;&nbsp;&nbsp;cmd |& getline out
-&nbsp;&nbsp;&nbsp;&nbsp;print out;
-&nbsp;&nbsp;&nbsp;&nbsp;close(cmd);
-}'
-</strong>  
+
+    awk 'BEGIN {
+        cmd = "tr [a-z] [A-Z]"
+        print "hello, world !!!" |& cmd
+        close(cmd, "to")
+        cmd |& getline out
+        print out;
+        close(cmd);
+    }'
         
-        
-        
+---        
     (3)调用shell命令
         
         system该函数用于执行指定的命令并且返回它的退出状态，返回状态码0表示命令成功执行
-<strong style="color:red;font-size:18px;">
-BEGIN {
-&nbsp;&nbsp;&nbsp;&nbsp;date_cmd="date -d '-3 days' +'%Y/%m/%d'";
-&nbsp;&nbsp;&nbsp;&nbsp;ret = system(date_cmd); 
-&nbsp;&nbsp;&nbsp;&nbsp;print "Return value = " ret 
- }
-awk 'BEGIN{system("clear")'
-</strong>  
+
+        BEGIN {
+            date_cmd="date -d '-3 days' +'%Y/%m/%d'";
+            ret = system(date_cmd); 
+            print "Return value = " ret 
+         }
+        awk 'BEGIN{system("clear")'
         
+<h2 id="example">示例</h2>
+    
+    (1)文件拆分
+    
+        netstat -antep|awk '{if(NR!=1)print $4;}'
+    
+    （2)查看客户端连接
+    
+        netstat -ntu | awk '{print $5}' | cut -d: -f1 | sort | uniq -c | sort -nr
+        
+    (3)每个用户的进程的占了多少内存
+    
+        ps aux | awk 'NR!=1{a[$1]+=$6;} END { for(i in a) print i ", " a[i]"KB";}'
+    
+    (4)线上人数
+        
+        BEGIN {
+
+            while ( "who" | getline ) n++
+            
+            print n
+        
+        }
+        
+    (4)统计学生成绩
+    
+    cat score.txt
+        Marry   2143 78 84 77
+        Jack    2321 66 78 45
+        Tom     2122 48 77 71
+        Mike    2537 87 97 95
+        Bob     2415 40 57 62
+        
+    #!/bin/awk -f
+    #运行前
+    BEGIN {
+        math = 0
+        english = 0
+        computer = 0
+     
+        printf "NAME    NO.   MATH  ENGLISH  COMPUTER   TOTAL\n"
+        printf "---------------------------------------------\n"
+    }
+    #运行中
+    {
+        math+=$3
+        english+=$4
+        computer+=$5
+        printf "%-6s %-6s %4d %8d %8d %8d\n", $1, $2, $3,$4,$5, $3+$4+$5
+    }
+    #运行后
+    END {
+        printf "---------------------------------------------\n"
+        printf "  TOTAL:%10d %8d %8d \n", math, english, computer
+        printf "AVERAGE:%10.2f %8.2f %8.2f\n", math/NR, english/NR, computer/NR
+    }
+
+<h2 id="link">参考链接</h2>
+    
+[三十分钟学会AWK](http://blog.jobbole.com/109089/ "三十分钟学会AWK")
+[awk实战与总结](http://www.fzb.me/2016-9-27-awk-in-action.html "awk实战与总结")
+[见过最好的AWK手册](https://blog.csdn.net/aqi2014/article/details/41218403 "见过最好的AWK手册")
+[awk 用法（使用入门）](https://www.cnblogs.com/emanlee/p/3327576.html#id2808971 "awk 用法（使用入门）") 
+[AWK入门指南](http://awk.readthedocs.io/en/latest/chapter-one.html "AWK入门指南") 
+[linux下awk内置函数的使用(split/substr/length)](https://www.cnblogs.com/sunada2005/p/3493941.html "linux下awk内置函数的使用(split/substr/length)")   
     

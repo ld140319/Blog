@@ -23,6 +23,7 @@ categories:
 <li><a href="#controll">控制语句</a></li>
 <li><a href="#function">自定义函数</a></li>
 <li><a href="#arg">命令行参数</a></li>
+<li><a href="#var">使用内置变量</a></li>
 <li><a href="#env">使用环境变量</a></li>
 <li><a href="#redirect">输出重定向</a></li>
 <li><a href="#pipeline">管道</a></li>
@@ -136,7 +137,7 @@ BEGIN 和 END 同为awk中的一种 Pattern. 以 BEGIN 为 Pattern的Actions ,�
                action-n
         } while (condition)
     
-<h2 id="env">常用内置变量</h2>
+<h2 id="var">常用内置变量</h2>
 
 |变量名|含义
 |------|----
@@ -498,9 +499,7 @@ BEGIN {
 }
         
 awk '{print \$1, \$2 | "sort" }END {close("sort")}' mark.txt
-
 awk '{print \$1, \$2 | "sort -r" }END {close("sort -r")}' mark.txt
-
 awk '{print \$1, \$2 | "sort"}END {close("sort")}' mark.txt >>sort.txt
 </strong>
         
@@ -530,7 +529,6 @@ BEGIN {
 &nbsp;&nbsp;&nbsp;&nbsp;ret = system(date_cmd); 
 &nbsp;&nbsp;&nbsp;&nbsp;print "Return value = " ret 
  }
-
 awk 'BEGIN{system("clear")'
 </strong>  
         

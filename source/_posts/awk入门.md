@@ -20,6 +20,13 @@ categories:
 <li><a href="#todo">典型用途</a></li>
 <li><a href="#stream">工作流</a></li>
 <li><a href="#ProgramStructure">程序结构</a></li>
+<li><a href="#controll">控制语句</a></li>
+<li><a href="#function">自定义函数</a></li>
+<li><a href="#arg">命令行参数</a></li>
+<li><a href="#env">使用环境变量</a></li>
+<li><a href="#redirect">输出重定向</a></li>
+<li><a href="#pipeline">管道</a></li>
+<li><a href="#test">例子</a></li>
 </ul>
 
 <h2 id="Introduce">介绍</h2>
@@ -73,6 +80,62 @@ GNU/Linux发布的AWK目前由自由软件基金会（FSF）进行开发和维�
         
 &nbsp;&nbsp;&nbsp;&nbsp;<em    style="color:red;">END语句块在程序的最后执行，仅仅执行一次END是AWK的关键字，因此必须为大写，它也是可选的。</em>
 
+<em style="color:#2B91D5;">
+awk 程序并不一定要处理数据文件
+BEGIN 和 END 同为awk中的一种 Pattern. 以 BEGIN 为 Pattern的Actions ,只有在awk开始执行程序,尚未开启任何输入文件前, 被执行一次.(注意: 只被执行一次)
+</em>
+
+<h2 id="controll">控制语句(流程控制)</h2>
+
+    (1)if
+        if (condition)
+           action
+         
+        if (condition) {
+           action-1
+           action-1
+           .
+           .
+           action-n
+        }
+         
+        if (condition)
+           action-1
+        else if (condition2)
+           action-2
+        else
+           action-3
+           
+    (2)for
+    
+        for (initialisation; condition; increment/decrement) {
+           action-1
+               action-1
+               .
+               .
+               action-n
+        }
+   
+   (3)while
+    
+        while (condition) {
+           action-1
+               action-1
+               .
+               .
+               action-n
+        }
+        
+   (4)do while
+    
+        do {
+           action-1
+               action-1
+               .
+               .
+               action-n
+        } while (condition)
+    
 <h2 id="env">常用内置变量</h2>
 
 |变量名|含义
@@ -124,4 +187,351 @@ GNU/Linux发布的AWK目前由自由软件基金会（FSF）进行开发和维�
                 awk 'BEGIN{INGORECASE=0}/a/ {print $0}' marks.txt
     
 ![匹配时,不区分大小写](awk入门/匹配时,不区分大小写.png)
+
+<h2 id="arg">命令行参数</h2>
+
+<em style="color:red;">
+    ARGC:参数个数
+    ARGV:参数数组
+</em>
+    
+    (1)命令行运行
+    
+    awk 'BEGIN { 
+       for (i = 0; i < ARGC - 1; ++i) { 
+          printf "ARGV[%d] = %s\n", i, ARGV[i] 
+       } 
+    }' one two three four
+    
+    (2)脚本运行  
+    
+    vim command.awk
+    
+    #!/bin/awk
+    BEGIN {
+      for (i = 0; i < ARGC - 1; ++i) {
+         printf "ARGV[%d] = %s\n", i, ARGV[i]
+      }
+    }
+    
+    awk -f command.awk one two three four
+    
+![命令行参数](awk入门/命令行参数.png)
+
+<h2 id="env">使用环境变量</h2>
+
+<em style="color:red;">
+查看所有环境变量: env
+    ENVIRON[KEY]
+</em>
+    
+    (1)命令行运行
+    
+    awk 'BEGIN { 
+       print "user:"ENVIRON["USER"]
+       print "shell:"ENVIRON["SHELL"]
+    }' 
+    
+    (2)脚本运行  
+    
+    vim command.awk
+    
+    #!/bin/awk
+    BEGIN {
+      print "user:"ENVIRON["USER"]
+      print "shell:"ENVIRON["SHELL"]
+    }
+    
+    awk -f command.awk 
+    
+![使用环境变量](awk入门/使用环境变量.png)
+
+<h2 id="operation">运算</h2>
+
+    (1)算数操作符
+    awk 'BEGIN { a = 50; b = 20; print "(a + b) = ", (a + b) }'
+    
+    awk 'BEGIN { a = 50; b = 20; print "(a - b) = ", (a - b) }'
+    
+    awk 'BEGIN { a = 50; b = 20; print "(a * b) = ", (a * b) }'
+    
+    awk 'BEGIN { a = 50; b = 20; print "(a / b) = ", (a / b) }'
+    
+    awk 'BEGIN { a = 50; b = 20; print "(a % b) = ", (a % b) }'
+    
+    (2)增减运算符
+    
+    awk 'BEGIN { a = 10; b = ++a; printf "a = %d, b = %d\n", a, b }'
+    
+    awk 'BEGIN { a = 10; b = --a; printf "a = %d, b = %d\n", a, b }'
+    
+    awk 'BEGIN { a = 10; b = a++; printf "a = %d, b = %d\n", a, b }'
+    
+    awk 'BEGIN { a = 10; b = a--; printf "a = %d, b = %d\n", a, b }'
+    
+    (3)赋值操作符
+    
+    awk 'BEGIN { name = "Jerry"; print "My name is", name }'
+    
+    awk 'BEGIN { cnt = 10; cnt += 10; print "Counter =", cnt }'
+    
+    awk 'BEGIN { cnt = 100; cnt -= 10; print "Counter =", cnt }'
+    
+    awk 'BEGIN { cnt = 10; cnt *= 10; print "Counter =", cnt }'
+    
+    awk 'BEGIN { cnt = 100; cnt /= 5; print "Counter =", cnt }'
+    
+    awk 'BEGIN { cnt = 100; cnt %= 8; print "Counter =", cnt }'
+    
+    awk 'BEGIN { cnt = 2; cnt ^= 4; print "Counter =", cnt }'
+    
+    awk 'BEGIN { cnt = 2; cnt **= 4; print "Counter =", cnt }'
+    
+    (4)关系操作符
+    
+    awk 'BEGIN { a = 10; b = 10; if (a == b) print "a == b" }'
+    awk 'BEGIN { a = 10; b = 20; if (a != b) print "a != b" }'
+    awk 'BEGIN { a = 10; b = 20; if (a<b) print "b > a" }'
+    
+    (5)逻辑操作符
+    
+    awk 'BEGIN {
+       num = 5; if (num >= 0 && num <= 7) printf "%d is in octal format\n", num
+    }'
+    
+    awk 'BEGIN {
+       ch = "\n"; if (ch == " " || ch == "\t" || ch == "\n")
+       print "Current character is whitespace."
+    }'
+    
+    awk 'BEGIN { name = ""; if (! length(name)) print "name is empty string." }'
+    
+    (6)三元操作符
+    
+    awk 'BEGIN { a = 10; b = 20; (a > b) ? max = a : max = b; print "Max =", max}'
+    
+    awk 'BEGIN { a = 10; b = 20; max=(a > b) ?  a : b; print "Max =", max}'
+    
+    (7)一元操作符(取反)
+    
+    awk 'BEGIN { a = -10; a = +a; print "a =", a }'
+    
+    awk 'BEGIN { a = -10; a = -a; print "a =", a }'
+    
+    (8)指数操作符(a的多少次方)
+   
+    awk 'BEGIN { a = 10; a = a ^ 2; print "a =", a }'
+    
+    awk 'BEGIN { a = 10; a ^= 2; print "a =", a }'
+    
+    (9)字符串连接操作符
+    
+    awk 'BEGIN { str1 = "Hello, "; str2 = "World"; str3 = str1 str2; print str3 }'
+    
+    (10)数组成员操作符
+    
+    awk 'BEGIN { 
+       arr[0] = 1; arr[1] = 2; arr[2] = 3; for (i in arr) printf "arr[%d] = %d\n", i, arr[i]
+    }'
+    
+    (11)正则表达式操作符
+    
+    正则表达式操作符使用 ~ 和 !~ 分别代表匹配和不匹配
+    匹配正则表达式需要在表达式前后添加反斜线
         
+        awk '{if($0 ~ /9/) {print $0}}' marks.txt
+        
+        awk '{if($0 !~ /9/) {print $0}}' marks.txt
+        
+<h2 id="function">自定义函数</h2>
+
+    # Returns minimum number
+    function find_min(num1, num2){
+       if (num1<num2)
+            return num1
+       return num2
+    }
+    
+    # Returns maximum number
+    function find_max(num1, num2){
+       if (num1>num2)
+            return num1
+       return num2
+    }
+    
+    # Main function
+    function main(num1, num2){
+       
+       # Find minimum number
+       result = find_min(10, 20)
+       print "Minimum =", result
+     
+       # Find maximum number
+       result = find_max(10, 20)
+       print "Maximum =", result
+    }
+    
+    # Script execution starts here
+    BEGIN {
+       main(10, 20)
+    }
+    
+<h2 id="redirect">输出重定向</h2>
+
+ <em style="color:red;">
+  print DATA > output-file
+  print DATA >> output-file
+ </em>
+   
+    echo "Hello, World !!!" > /tmp/message.txt
+    awk 'BEGIN { print "Hello, World !!!" > "/tmp/message.txt" }'
+    
+    awk 'BEGIN { print "Hello, World !!!" >> "/tmp/message.txt" }'
+    cat /tmp/message.txt
+    
+<h2 id="pipeline">管道</h2>
+
+    (1)单向管道
+        
+   awk程序中可接受下列两种语法:
+   
+        a: awk output 指令 | "Shell 接受的命令"
+        (如 : print $1,$2 | "sort -k 1")
+        
+        b: "Shell 接受的命令" | awk input 指令
+        (如 : "ls " | getline)
+
+ 
+
+注 : 
+<em style="color:red;">
+awk input 指令只有 getline 一个.
+awk output 指令有 print, printf() 二个.
+</em>
+
+在a 语法中, awk所输出的数据将转送往 Shell , 由 Shell 的命令进行处理.以上例而言, print 所输出的数据将经由 Shell 命令 "sort -k 1" 排序后再送往屏幕(stdout).
+
+上列awk程序中, <em style="color:red;">"print \$1, \$2" 可能反复执行很多次, 其输出的结果将先暂存于 pipe 中,等到该程序结束时, 才会一并进行 "sort -k 1".</em>
+
+须注意二点 :
+<em style="color:#43CD80;">
+1.不论 print \$1, \$2 被执行几次, "sort -k 1" 的执行时间是 "awk程序结束时",
+2."sort -k 1" 的执行次数是 "一次".
+</em>
+ 
+
+在 b 语法中, awk将先调用 Shell 命令. 其执行结果将通过 pipe 送入awk程序,以上例而言, <em style="color:red;">awk先让 Shell 执行 "ls",Shell 执行后将结果存于 pipe, awk指令 getline再从 pipe 中读取数据.</em>
+
+使用本语法时应留心: 
+<em style="color:#43CD80;">
+1.awk "立刻"调用 Shell 来执行 "ls", 执行次数是一次.
+2.getline 则可能执行多次(若pipe中存在多行数据).
+</em>
+
+<em style="color:red;">除上列 a, b 二中语法外, awk程序中其它地方如出现像 "date", "cls", "ls"... 这样的字符串, awk只把它当成一般字符串处理.</em>
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:red;">输出重定向需用到getline函数。</span>getline从标准输入、管道或者当前正在处理的文件之外的其他输入文件获得输入。<span style="color:red;">它负责从输入获得下一行的内容，并给NF,NR和FNR等内建变量赋值</span>。如果得到一条记录，getline函数返回1，如果到达文件的末尾就返回0，如果出现错误，例如打开文件失败，就返回-1。
+
+
+|语法|位置|由何处读取数据|数据读入后置于|
+|----|--------------|--------------|
+|getline var< file|body|所指定的 file|变量 var(var省略时,表示置于$0)|
+|getline var|body|pipe 变量|变量 var(var省略时,表示置于\$0)|
+|getline var|begin/end|见 注一|变量 var(var省略时,表示置于\$0)|
+注一 : 当 Pattern 为 BEGIN 或 END 时, getline 将由 stdin 读取数据, 否则由awk正处理的数据文件上读取数据.
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:red;">awk 'BEGIN{ "date" | getline d; print d}'</span>
+    
+        执行linux的date命令，并通过管道输出给getline，然后再把输出赋值给自定义变量d，并打印它。
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:red;">awk 'BEGIN{"date" | getline d; split(d,mon); print mon[2]}'</span>  
+    
+        split (string, array, field separator)
+        split (string, array)           -->如果第三个参数没有提供，awk就默认使用当前FS值
+   
+        执行shell的date命令，并通过管道输出给getline，然后getline从管道中读取并将输入赋值给d，split函数把变量d转化成数组mon，然后打印数组mon的第二个元素。
+
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:red;">awk 'BEGIN{while( "ls" | getline) print}'
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:red;">awk 'BEGIN{while( "ls" | getline d) print d}'</span>
+    
+        命令ls的输出传递给geline作为输入，循环使getline从ls的输出中读取一行，并把它打印到屏幕。这里没有输入文件，因为BEGIN块在打开输入文件前执行，所以可以忽略输入文件。
+
+<strong style="color:red;font-size:18px;">
+    #!/bin/awk
+    BEGIN {
+&nbsp;&nbsp;&nbsp;&nbsp;FS=":"
+&nbsp;&nbsp;&nbsp;&nbsp;printf "What is your name?"; getline name < "/dev/tty"
+    }
+    {
+&nbsp;&nbsp;&nbsp;&nbsp;if ($1 ~ name) print "Found name on line ", NR
+    }
+    END{print "See you," name}
+    awk -f command.awk /etc/passwd
+</strong>
+
+    
+        在屏幕上打印”What is your name?",并等待用户应答。当一行输入完毕后，getline函数从终端接收该行输入，并把它储存在自定义变量name中。如果第一个域匹配变量name的值，print函数就被执行，END块打印See you和name的值。
+        
+<strong style="color:red;font-size:18px;">
+       awk 'BEGIN {
+        while ((getline one < "/etc/passwd")> 0){
+            &nbsp;&nbsp;&nbsp;&nbsp;lc++; 
+            &nbsp;&nbsp;&nbsp;&nbsp;print one
+        }
+        &nbsp;&nbsp;&nbsp;&nbsp;print lc
+      }'
+    wc -l "/etc/passwd" 
+</strong>
+    
+        awk将逐行读取文件/etc/passwd的内容，在到达文件末尾前，计数器lc一直增加，当到末尾时，打印lc的值。注意，如果文件不存在，getline返回-1，如果到达文件的末尾就返回0，如果读到一行，就返回1，所以命令 while (getline < "/etc/passwd")在文件不存在的情况下将陷入无限循环，因为返回-1表示逻辑真。
+
+    可以在awk中打开一个管道，且同一时刻只能有一个管道存在。通过close()可关闭管道。
+    
+    如：$ awk 'BEGIN{FS=":"}{print $1, $2 | "sort" }END{close("sort")}' /etc/passwd
+    
+    awk把print语句的输出通过管道作为linux命令sort的输入,END块执行关闭管道操作。
+<strong style="color:red;font-size:18px;">
+BEGIN {
+&nbsp;&nbsp;&nbsp;&nbsp;"date" | getline current_time
+&nbsp;&nbsp;&nbsp;&nbsp;close("date")
+&nbsp;&nbsp;&nbsp;&nbsp;print "Report printed on " current_time
+}
+        
+awk '{print \$1, \$2 | "sort" }END {close("sort")}' mark.txt
+
+awk '{print \$1, \$2 | "sort -r" }END {close("sort -r")}' mark.txt
+
+awk '{print \$1, \$2 | "sort"}END {close("sort")}' mark.txt >>sort.txt
+</strong>
+        
+        
+        
+        
+    (2)双向连接(协同进程)
+<strong style="color:red;font-size:18px;">
+awk 'BEGIN {
+&nbsp;&nbsp;&nbsp;&nbsp;cmd = "tr [a-z] [A-Z]"
+&nbsp;&nbsp;&nbsp;&nbsp;print "hello, world !!!" |& cmd
+&nbsp;&nbsp;&nbsp;&nbsp;close(cmd, "to")
+&nbsp;&nbsp;&nbsp;&nbsp;cmd |& getline out
+&nbsp;&nbsp;&nbsp;&nbsp;print out;
+&nbsp;&nbsp;&nbsp;&nbsp;close(cmd);
+}'
+</strong>  
+        
+        
+        
+    (3)调用shell命令
+        
+        system该函数用于执行指定的命令并且返回它的退出状态，返回状态码0表示命令成功执行
+<strong style="color:red;font-size:18px;">
+BEGIN {
+&nbsp;&nbsp;&nbsp;&nbsp;date_cmd="date -d '-3 days' +'%Y/%m/%d'";
+&nbsp;&nbsp;&nbsp;&nbsp;ret = system(date_cmd); 
+&nbsp;&nbsp;&nbsp;&nbsp;print "Return value = " ret 
+ }
+
+awk 'BEGIN{system("clear")'
+</strong>  
+        
+    

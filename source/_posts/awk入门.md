@@ -73,7 +73,7 @@ GNU/Linux发布的AWK目前由自由软件基金会（FSF）进行开发和维�
         
 &nbsp;&nbsp;&nbsp;&nbsp;<em    style="color:red;">END语句块在程序的最后执行，仅仅执行一次END是AWK的关键字，因此必须为大写，它也是可选的。</em>
 
-<h2 id="env">内置变量</h2>
+<h2 id="env">常用内置变量</h2>
 
 |变量名|含义
 |------|----
@@ -87,7 +87,7 @@ GNU/Linux发布的AWK目前由自由软件基金会（FSF）进行开发和维�
 |FNR|当前记录数，与NR不同的是，这个值会是各个文件自己的行号(<span style="color:red">一般用于BODY中</span>)
 |RS|输入的记录分隔符， 默认为换行符(<span style="color:red">一般用于BEGIN中,重新指定</span>)
 |ORS|输出的记录分隔符，默认为换行符(<span style="color:red">一般用于BEGIN中,重新指定</span>)
-
+|IGNORECASE|正则匹配时,忽略大小写 1忽略 0不忽略(<span style="color:red">一般用于BEGIN中</span>)
 <h2 id="test">例子</h2>
 
     vim marks.txt
@@ -117,4 +117,11 @@ GNU/Linux发布的AWK目前由自由软件基金会（FSF）进行开发和维�
             awk '!/a/ {print $0}' marks.txt
     
 ![不含a的行](awk入门/不含a的行.png)
+
+    (4)正则匹配忽略大小写
+                
+                awk 'BEGIN{INGORECASE=1}/a/ {print}' marks.txt
+                awk 'BEGIN{INGORECASE=0}/a/ {print $0}' marks.txt
+    
+![匹配时,不区分大小写](awk入门/匹配时,不区分大小写.png)
         

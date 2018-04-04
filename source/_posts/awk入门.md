@@ -412,11 +412,11 @@ awk output 指令有 print, printf() 二个.
 
 在a 语法中, awk所输出的数据将转送往 Shell , 由 Shell 的命令进行处理.以上例而言, print 所输出的数据将经由 Shell 命令 "sort -k 1" 排序后再送往屏幕(stdout).
 
-上列awk程序中, <em style="color:red;">"print \$1, \$2" 可能反复执行很多次, 其输出的结果将先暂存于 pipe 中,等到该程序结束时, 才会一并进行 "sort -k 1".</em>
+上列awk程序中, <em style="color:red;">"print $1, $2" 可能反复执行很多次, 其输出的结果将先暂存于 pipe 中,等到该程序结束时, 才会一并进行 "sort -k 1".</em>
 
 须注意二点 :
 <em style="color:#43CD80;">
-1.不论 print \$1, \$2 被执行几次, "sort -k 1" 的执行时间是 "awk程序结束时",
+1.不论 print $1, $2 被执行几次, "sort -k 1" 的执行时间是 "awk程序结束时",
 2."sort -k 1" 的执行次数是 "一次".
 </em>
  

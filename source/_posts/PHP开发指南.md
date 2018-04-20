@@ -3,8 +3,10 @@ title: PHP开发指南
 date: 2018-04-20 13:40:40
 tags:
 - PHP
+- 代码规范
 categories:
 - PHP
+- 代码规范
 ---
 
 # clean-code-php
@@ -37,7 +39,6 @@ $ymdstr = $moment->format('y-m-d');
 ```javascript
 $currentDate = $moment->format('y-m-d');
 ```
-**[⬆ 返回顶部](#table-of-contents)**
 
 ### 同种类型的变量使用相同词汇
 
@@ -52,7 +53,6 @@ getCustomerRecord();
 ```php
 getUser();
 ```
-**[⬆ 返回顶部](#table-of-contents)**
 
 ### 使用易检索的名称
 我们会读比写要多的代码。通过是命名易搜索，让我们写出可读性和易搜索代码很重要。
@@ -73,8 +73,6 @@ interface DateGlobal {
 
 addExpireAt(DateGlobal::SECONDS_IN_A_DAY);
 ```
-**[⬆ 返回顶部](#table-of-contents)**
-
 
 ### 使用解释型变量
 **Bad:**
@@ -93,7 +91,6 @@ preg_match($cityZipCodeRegex, $address, $matches);
 list(, $city, $zipCode) = $matchers;
 saveCityZipCode($city, $zipCode);
 ```
-**[⬆ 返回顶部](#table-of-contents)**
 
 ### 避免心理映射
 明确比隐性好。
@@ -126,8 +123,6 @@ foreach($i=0; $i<count($locations); $i++) {
   dispatch($location);
 });
 ```
-**[⬆ 返回顶部](#table-of-contents)**
-
 
 ### 不要添加不必要上下文
 如果你的class/object 名能告诉你什么，不要把它重复在你变量名里。
@@ -157,7 +152,6 @@ function paintCar(&$car) {
   $car['color'] = 'Red';
 }
 ```
-**[⬆ 返回顶部](#table-of-contents)**
 
 ###使用参数默认值代替短路或条件语句。
 **Bad:**
@@ -176,8 +170,6 @@ function createMicrobrewery($breweryName = 'Hipster Brew Co.') {
 }
 
 ```
-
-**[⬆ 返回顶部](#table-of-contents)**
 
 ## **函数**
 ### 函数参数最好少于2个
@@ -212,8 +204,6 @@ function createMenu(MenuConfig $config) {
 }
 
 ```
-**[⬆ 返回顶部](#table-of-contents)**
-
 
 ### 函数应该只做一件事
 这是迄今为止软件工程里最重要的一个规则。当函数做超过一件事的时候，他们就难于实现、测试和理解。当你隔离函数只剩一个功能时，他们就容易被重构，然后你的代码读起来就更清晰。如果你光遵循这条规则，你就领先于大多数开发者了。
@@ -246,7 +236,6 @@ function isClientActive($client) {
   return $clientRecord->isActive();
 }
 ```
-**[⬆ 返回顶部](#table-of-contents)**
 
 ### 函数名应当描述他们所做的事
 
@@ -271,7 +260,6 @@ function addMonthToDate($month, $date) {
 $date = new \DateTime();
 addMonthToDate(1, $date);
 ```
-**[⬆ 返回顶部](#table-of-contents)**
 
 ### 函数应当只为一层抽象，当你超过一层抽象时，函数正在做多件事。拆分功能易达到可重用性和易用性。.
 
@@ -336,7 +324,6 @@ function parseBetterJSAlternative($code) {
   });
 }
 ```
-**[⬆ 返回顶部](#table-of-contents)**
 
 ### 删除重复的代码
 尽你最大的努力来避免重复的代码。重复代码不好，因为它意味着如果你修改一些逻辑，那就有不止一处地方要同步修改了。
@@ -397,7 +384,6 @@ function showList($employees) {
   }
 }
 ```
-**[⬆ 返回顶部](#table-of-contents)**
 
 ### 通过对象赋值设置默认值
 
@@ -469,7 +455,6 @@ function createTempFile($name) {
   touch('./temp/'.$name);
 }
 ```
-**[⬆ 返回顶部](#table-of-contents)**
 
 ### 避免副作用
 一个函数做了比获取一个值然后返回另外一个值或值们会产生副作用如果。副作用可能是写入一个文件，修改某些全局变量或者偶然的把你全部的钱给了陌生人。
@@ -507,7 +492,6 @@ $newName = splitIntoFirstAndLastName(name);
 var_export($name); // 'Ryan McDermott';
 var_export($newName); // ['Ryan', 'McDermott'];
 ```
-**[⬆ 返回顶部](#table-of-contents)**
 
 ### 不要写全局函数
 在大多数语言中污染全局变量是一个坏的实践，因为你可能和其他类库冲突并且你api的用户不明白为什么直到他们获得产品的一个异常。让我们看一个例子：如果你想配置一个数组，你可能会写一个全局函数像`config()`，但是可能和试着做同样事的其他类库冲突。这就是为什么单例设计模式和简单配置会更好的原因。
@@ -538,7 +522,6 @@ class Configuration {
 
 $singleton = Configuration::getInstance();
 ```
-**[⬆ 返回顶部](#table-of-contents)**
 
 ### 封装条件语句
 
@@ -559,7 +542,6 @@ if (shouldShowSpinner($fsmInstance, $listNodeInstance)) {
   // ...
 }
 ```
-**[⬆ 返回顶部](#table-of-contents)**
 
 ### 避免消极条件
 
@@ -584,7 +566,6 @@ if (isDOMNodePresent($node)) {
   // ...
 }
 ```
-**[⬆ 返回顶部](#table-of-contents)**
 
 ### 避免条件声明
 这看起来像一个不可能任务。当人们第一次听到这句话是都会这么说。
@@ -634,7 +615,6 @@ class Cessna extends Airplane {
   }
 }
 ```
-**[⬆ 返回顶部](#table-of-contents)**
 
 ### Avoid 避免类型检查 (part 1)
 PHP是弱类型的,这意味着你的函数可以接收任何类型的参数。
@@ -657,7 +637,6 @@ function travelToTexas($vehicle) {
   $vehicle->move($this->currentLocation, new Location('texas'));
 }
 ```
-**[⬆ 返回顶部](#table-of-contents)**
 
 ### 避免类型检查 (part 2)
 如果你正使用基本原始值比如字符串、整形和数组，你不能用多态，你仍然感觉需要类型检测，你应当考虑类型声明或者严格模式。 这给你了基于标准PHP语法的静态类型。 手动检查类型的问题是做好了需要好多的废话，好像为了安全就可以不顾损失可读性。保持你的PHP 整洁，写好测试，做好代码回顾。做不到就用PHP严格类型声明和严格模式来确保安全。
@@ -679,7 +658,6 @@ function combine(int $val1, int $val2) {
   return $val1 + $val2;
 }
 ```
-**[⬆ 返回顶部](#table-of-contents)**
 
 ### 移除僵尸代码
 僵尸代码和重复代码一样坏。没有理由保留在你的代码库中。如果从来被调用过，见鬼去！在你的版本库里是如果你仍然需要他的话，因此这么做很安全。
@@ -708,13 +686,3 @@ function newRequestModule($url) {
 $req = new newRequestModule();
 inventoryTracker('apples', $req, 'www.inventory-awesome.io');
 ```
-**[⬆ 返回顶部](#table-of-contents)**
-
-
-##有问题反馈
-在使用中有任何问题，欢迎反馈给我，可以用以下联系方式跟我交流
-
-* 邮件(yangweijiest#gmail.com, 把#换成@)
-* QQ: 917647288
-* weibo: [@黑白世界4648](http://weibo.com/1342658313)
-* 人人: [@杨维杰](http://www.renren.com/247050624)

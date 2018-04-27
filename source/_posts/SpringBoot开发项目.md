@@ -118,6 +118,7 @@
     spring.datasource.maxActive=20
     #最大等待连接时间
     spring.datasource.maxWait=60000 
+    
     #MyBatis Mapper XML 文件路径
     #mybatis.mapper-locations=classpath:mapper/*Mapper.xml
     mybatis.mapper-locations=classpath:com/tff/monitor/mapping/*Mapper.xml   
@@ -181,7 +182,7 @@
 
 选中项目根目录，右键单击,选择__运行方式__，选择__运行配置__，选中__Maven__ => __Maven Build__ => __新增配置__ =>填写配置参数
 
-![mybatis generator 自动生成代码插件](SpringBoot开发项目/新增maven build配置.png)
+![MybatisGenerator自动生成代码插件](SpringBoot开发项目/新增maven build配置.png)
 
 填写完成以后，点击__应用__，最后选择__运行__
 
@@ -299,50 +300,51 @@ UserServiceImpl实现类如下所示:
 
    package com.tff.monitor.controller;
 
-import com.tff.monitor.entity.User;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
-import javax.servlet.http.HttpServletRequest;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import com.tff.monitor.service.*;
-
-@Controller
-@RequestMapping(value = "/user")
-public class UserController {
-	
-    	@Autowired
-    	private IUserService userService;
+    import com.tff.monitor.entity.User;
+    import org.springframework.stereotype.Controller;
+    import org.springframework.web.bind.annotation.RequestMapping;
+    import org.springframework.web.bind.annotation.ResponseBody;
     
-    	public IUserService getUserService() {
-    		return userService;
-    	}
+    import javax.servlet.http.HttpServletRequest;
     
-    	public void setUserService(IUserService userService) {
-    		this.userService = userService;
-    	}
+    import org.springframework.beans.factory.annotation.Autowired;
+    import com.tff.monitor.service.*;
+    
+    @Controller
+    @RequestMapping(value = "/user")
+    public class UserController {
     	
-    	@ResponseBody
-    	@RequestMapping(value="/add")
-    	public Long addUser(HttpServletRequest request)
-    	{
-    		String user_name = (String)request.getParameter("user_name");
-    		String phone = (String)request.getParameter("phone");
-    		String password = (String)request.getParameter("password");
-    		
-    		User user = new User();
-    		user.setUserName(user_name);
-    		user.setPhone(phone);
-    		user.setPassword(password);
-    		System.out.println(user);
-    		return this.userService.addUser(user);
-    	}
-	
-    }
+        	@Autowired
+        	private IUserService userService;
+        
+        	public IUserService getUserService() {
+        		return userService;
+        	}
+        
+        	public void setUserService(IUserService userService) {
+        		this.userService = userService;
+        	}
+        	
+        	@ResponseBody
+        	@RequestMapping(value="/add")
+        	public Long addUser(HttpServletRequest request)
+        	{
+        		String user_name = (String)request.getParameter("user_name");
+        		String phone = (String)request.getParameter("phone");
+        		String password = (String)request.getParameter("password");
+        		
+        		User user = new User();
+        		user.setUserName(user_name);
+        		user.setPhone(phone);
+        		user.setPassword(password);
+        		System.out.println(user);
+        		return this.userService.addUser(user);
+        	}
+    	
+        }
 
 #新建包com.tff.monitor.util，定义RedisUtil
+
     package com.tff.monitor.util;
     
     import org.springframework.beans.factory.annotation.Autowired;

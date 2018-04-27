@@ -25,7 +25,9 @@
 3.选择项目依赖
 
 在SQL标签中,选择MyBatis、MySql、JDBC
+
 在Nosql标签中,选择Redis
+
 在Web标签中，选择Web
 
 ![选择项目依赖](SpringBoot开发项目/选择项目依赖.png)

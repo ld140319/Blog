@@ -6,7 +6,7 @@
 
 1.打开eclipse菜单Help》Eclise Marketplace
 
-![进入应用插件市场](./进入Marketplace.png)
+![进入应用插件市场](SpringBoot开发项目/进入Marketplace.png)
 
 2.打开"Popular"标签，然后下拉滚动条，找到SpringToolSuite，并点击“Install”按钮
 
@@ -20,7 +20,7 @@
 
 2.填写项目信息
 
-![填写项目信息](./填写项目信息.png)
+![填写项目信息](SpringBoot开发项目/填写项目信息.png)
 
 3.选择项目依赖
 
@@ -28,7 +28,7 @@
 在Nosql标签中,选择Redis
 在Web标签中，选择Web
 
-![选择项目依赖](./选择项目依赖.png)
+![选择项目依赖](SpringBoot开发项目/选择项目依赖.png)
 
 4.下一步，等待创建完成
 
@@ -44,7 +44,7 @@
         
 结果如下所示:
 
-![添加数据库连接池依赖](./添加数据库连接池依赖.png)
+![添加数据库连接池依赖](SpringBoot开发项目/添加数据库连接池依赖.png)
 
 6.添加mybatis generator 自动生成代码插件
 
@@ -66,7 +66,7 @@
 
 结果如下所示:
 
-![mybatis generator 自动生成代码插件](./自动生成代码插件.png)
+![mybatis generator 自动生成代码插件](SpringBoot开发项目/自动生成代码插件.png)
 
 # 数据库以及Redis参数配置
 
@@ -181,7 +181,7 @@
 
 选中项目根目录，右键单击,选择__运行方式__，选择__运行配置__，选中__Maven__ => __Maven Build__ => __新增配置__ =>填写配置参数
 
-![mybatis generator 自动生成代码插件](./自动生成代码插件.png)
+![mybatis generator 自动生成代码插件](SpringBoot开发项目/自动生成代码插件.png)
 
 填写完成以后，点击__应用__，最后选择__运行__
 
@@ -189,9 +189,9 @@
 
 生成的结构如图所示:
 
-![Mapper XML映射文件](./MapperXML映射文件.png)
+![Mapper XML映射文件](SpringBoot开发项目/MapperXML映射文件.png)
 
-![实体和Mapper接口](./实体和Mapper接口.png)
+![实体和Mapper接口](SpringBoot开发项目/实体和Mapper接口.png)
 
 # 修改UserMapper.xml，支持主键自增
 
@@ -204,7 +204,61 @@
         values (#{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
           #{phone,jdbcType=VARCHAR})
       </insert>
-      
+#编辑com.tff.monitor.entity包下的User类,修改userId属性类型为Long,实现序列化接口，重写toString方法
+
+    package com.tff.monitor.entity;
+
+    import java.io.Serializable;
+    import java.lang.*;
+
+    public class User implements Serializable{
+        private Long userId;
+    
+        private String userName;
+    
+        private String password;
+    
+        private String phone;
+    
+        public Long getUserId() {
+            return userId;
+        }
+    
+        public void setUserId(Long userId) {
+            this.userId = userId;
+        }
+    
+        public String getUserName() {
+            return userName;
+        }
+    
+        public void setUserName(String userName) {
+            this.userName = userName == null ? null : userName.trim();
+        }
+    
+        public String getPassword() {
+            return password;
+        }
+    
+        public void setPassword(String password) {
+            this.password = password == null ? null : password.trim();
+        }
+    
+        public String getPhone() {
+            return phone;
+        }
+    
+        public void setPhone(String phone) {
+            this.phone = phone == null ? null : phone.trim();
+        }
+    
+    	@Override
+    	public String toString() {
+    		return "User [userId=" + userId + ", userName=" + userName + ", password=" + password + ", phone=" + phone
+    				+ "]";
+    	}
+        
+    }
 #新建包com.tff.monitor.service，定义IUserService接口和UserServiceImpl实现类
 
 IUserService接口如下所示；
@@ -374,6 +428,8 @@ public class UserController {
     import com.tff.monitor.entity.User;
     import com.tff.monitor.util.RedisUtil;
     
+    import java.util.Random;
+    
     import javax.servlet.http.HttpServletRequest;
     
     import org.springframework.beans.factory.annotation.Autowired;
@@ -422,15 +478,14 @@ public class UserController {
     		}
     	}
     
-    @ResponseBody
+    	@ResponseBody
     	@RequestMapping(value = "/setObj")
     	public String setObj(HttpServletRequest request) {
     		try {
     			String key = (String)request.getParameter("key");
-    		    System.out.println(key);
     			User user = new User();
-    			user.setUserId(new Long(1000));
-    			user.setUserName("lzm");
+    			user.setUserId(new Long(1000+new Random().nextInt()));
+    			user.setUserName("lzm"+new Random().nextInt());
     			user.setPhone("15502816657");
     			user.setPassword("705721");
     			redisUtil.setObj(key, user);
@@ -455,8 +510,8 @@ public class UserController {
     	@RequestMapping(value = "/delObj")
     	public Object delObj(HttpServletRequest request) {
     		try {
-    		    String key = (String)request.getParameter("key");
-    		    System.out.println(key);
+    			String key = (String)request.getParameter("key");
+    			System.out.println(key);
     			redisUtil.delObj(key);
     			return "success";
     		} catch (Exception e) {
@@ -466,6 +521,9 @@ public class UserController {
     	}
     
     }
+	
+
+
 	
 # 测试:
 

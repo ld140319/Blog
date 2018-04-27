@@ -127,7 +127,7 @@
     #需要设置别名的实体类路径
     mybatis.type-aliases-package=com.tff.monitor.entity 
     
-#编辑MyBatis自动生成代码配置文件
+# 编辑MyBatis自动生成代码配置文件
 
 新建${basedir}/src/main/resources/generator/generatorConfig.xml文件,${basedir}指的是项目根目录
 
@@ -207,7 +207,7 @@
         values (#{userId,jdbcType=INTEGER}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
           #{phone,jdbcType=VARCHAR})
       </insert>
-#编辑com.tff.monitor.entity包下的User类,修改userId属性类型为Long,实现序列化接口，重写toString方法
+# 编辑com.tff.monitor.entity包下的User类,修改userId属性类型为Long,实现序列化接口，重写toString方法
 
     package com.tff.monitor.entity;
 
@@ -262,7 +262,7 @@
     	}
         
     }
-#新建包com.tff.monitor.service，定义IUserService接口和UserServiceImpl实现类
+# 新建包com.tff.monitor.service，定义IUserService接口和UserServiceImpl实现类
 
 IUserService接口如下所示；
 
@@ -298,7 +298,7 @@ UserServiceImpl实现类如下所示:
     	
     }
 
-#新建包com.tff.monitor.controller，定义UserController
+# 新建包com.tff.monitor.controller，定义UserController
 
    package com.tff.monitor.controller;
 
@@ -345,7 +345,7 @@ UserServiceImpl实现类如下所示:
     	
         }
 
-#新建包com.tff.monitor.util，定义RedisUtil
+# 新建包com.tff.monitor.util，定义RedisUtil
 
     package com.tff.monitor.util;
     
@@ -426,7 +426,7 @@ UserServiceImpl实现类如下所示:
     }
 
 
-#新建RedisController
+# 新建RedisController
 
     package com.tff.monitor.controller;
     import com.tff.monitor.entity.User;

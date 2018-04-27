@@ -181,7 +181,7 @@
 
 选中项目根目录，右键单击,选择__运行方式__，选择__运行配置__，选中__Maven__ => __Maven Build__ => __新增配置__ =>填写配置参数
 
-![mybatis generator 自动生成代码插件](SpringBoot开发项目/自动生成代码插件.png)
+![mybatis generator 自动生成代码插件](SpringBoot开发项目/新增maven build配置.png)
 
 填写完成以后，点击__应用__，最后选择__运行__
 

@@ -148,7 +148,8 @@ bash 表示要用于执行命令的 shell 名称
 
 让我们进一步深入了解 sudo 命令。
 
-$ ls -l /usr/bin/sudo
+    ls -l /usr/bin/sudo
+
 -rwsr-xr-x 1 root root 145040 Jun 13  2017 /usr/bin/sudo
 
 如果仔细观察文件权限，则发现 sudo 上启用了 setuid 位。当任何用户运行这个二进制文件时，它将以拥有该文件的用户权限运行。在所示情形下，它是 root 用户。
@@ -156,6 +157,7 @@ $ ls -l /usr/bin/sudo
 为了演示这一点，我们可以使用 id 命令，如下所示：
 
      id
+
 uid=1002(linuxtechi) gid=1002(linuxtechi) groups=1002(linuxtechi)
 
 当我们不使用 sudo 执行 id 命令时，将显示用户 linuxtechi 的 id。

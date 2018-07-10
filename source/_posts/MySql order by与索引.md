@@ -1,10 +1,10 @@
 # 那些情况下order by不会使用索引?
 
-1. 在排序时使用多个不同的索引
+1. 在排序时使用多个不同的索引(一个查询只能够使用一个索引)
 
 	SELECT * FROM t1 ORDER BY key1, key2;
 
-2. 使用一个组合索引不连续的部分进行排序  （key1_part1,key2_part1 key1_part3）
+2. 使用一个组合索引不连续的部分进行排序  （key1_part1,key2_part1 key1_part3）即必须为key1_part1,key2_part1或者key1_part1,key2_part1 key1_part3
 
 	SELECT * FROM t1 WHERE key2=constant ORDER BY key1_part1, key1_part3;
 
@@ -40,6 +40,10 @@
 	在以下语句中，ORDER BY引用的名称不是选择列表中列的名称。但是在t1中有一列名为a，所以ORDER BY引用t1.a并且可以使用t1.a上的索引。 （当然，得到的排序顺序可能与ABS（a）的顺序完全不同。）
 
 	SELECT ABS(a) AS b FROM t1 ORDER BY a; 可以使用索引进行排序
+
+11. select * 且没有where条件或者where条件中没有使用索引
+
+    eg : SELECT * FROM t1 ORDER BY a;
 
 
 11. GROUP BY col1, col2, ... 包含了一个默认排序 ORDER BY col1, col2，可以通过ORDER BY NULL禁止

@@ -30,7 +30,7 @@ categories:
    
   <span style="color:red;">echo "$str"</span>
   
-  <span style="color:red;">echo "${str=DEFAULT}"</ 
+  <span style="color:red;">echo "${str=DEFAULT}"</span> 
   
     str="string"
     
@@ -138,13 +138,13 @@ categories:
 <span style="color:red;">开头匹配替换</span>
 
     #从str开头匹配，用TEST替换最长的a*c  
-        echo ${str/#a*c/TEST}  
+        echo ${str/#a*c/TEST}  =  echo ${str/a*c/TEST}
     #TESTjkl
     
 <span style="color:red;">结尾匹配替换</span>
 
     #从str结尾匹配，用TEST替换最长的b*l  
-        echo ${str/%b*l/TEST}  
+        echo ${str/%b*l/TEST}  = echo ${str/b*l/TEST}  
     #aTEST 
     
 <h2 id="index">字符串索引</h2>

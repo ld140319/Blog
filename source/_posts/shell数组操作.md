@@ -121,9 +121,9 @@ categories:
             
             echo ${array[@]//e/E}      #zEro onE two thrEE four
             
-            echo ${array[@]/e/E}      #zro on two thre four
+            echo ${array[@]/e/}      #zro on two thre four
             
-            echo ${array[@]//e/E}      #zro on two thr four
+            echo ${array[@]//e/}      #zro on two thr four
             
     ${array[@]/#x/y}     从左往右匹配替换，只替换每个元素最左边的字符
 
@@ -177,7 +177,7 @@ categories:
 
 <h2 id="map">关联数组</h2>
 
-    declare -A ass_arr
+    declare -A ass_arr  #必须申明为数组
     ass_arr["apple"]=12;
     ass_arr["orange"]=19
     echo ${ass_arr[@]}
@@ -195,4 +195,5 @@ categories:
 <h2 id="index">获取所有键名</h2>
 
     echo ${!ass_arr[@]} #or ${!ass_arr[*]}
+    echo ${!ass_arr[*]}
 

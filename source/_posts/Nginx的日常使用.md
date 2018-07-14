@@ -144,6 +144,7 @@ rewrite ^/ http://www.abc.com/error.png; #重写返回error.png
 load_module "modules/ngx_http_echo_module.so";
 ```
 ![动态添加模块](Nginx的日常使用/动态添加模块.png)
+
 9. gizp压缩
 ```
 gzip on;

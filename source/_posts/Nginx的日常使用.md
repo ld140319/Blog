@@ -160,5 +160,4 @@ gzip_vary on;
 
 gzip_types text/plain text/javascript application/x-javascript text/css text/xml application/xml application/xml+rss text/jpg text/png;
 ```
-
-！[gzip压缩](Nginx的日常使用/gzip压缩.png)
+![gzip压缩](Nginx的日常使用/gzip压缩.png)

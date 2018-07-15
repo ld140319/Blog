@@ -1,0 +1,15 @@
+#!/usr/bin/expect
+set user "root"
+set host "118.24.47.193"
+set passwd "52013141220@"
+spawn ssh $user@$host
+expect {
+"yes/no" { send "yes\r"; exp_continue}
+"password:" { send "$passwd\r" }
+}
+foreach dir_name $argv {
+  expect "]*"
+  send "mkdir /usr/local/nginx/html/Blog/source/_posts/$dir_name\r"
+}
+expect "]*"
+send "exit\r"

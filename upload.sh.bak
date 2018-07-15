@@ -1,0 +1,49 @@
+#!/usr/bin/bash
+function scan () {
+   path=$1
+      echo $path
+         if [ -e $path -a -f $path ]
+	        then
+		       scp $path root@118.24.47.193:/usr/local/nginx/html/Blog/source/_posts
+                       echo 2222
+		          fi
+			     if [  -e $path -a -d $path ]
+			        then
+				       for sub_path in `ls $path`
+				              do
+					               scan $sub_path
+						              done
+							         fi
+								 }
+
+cd /z/DevSoftware/phpStudy2017/PHPTutorial/WWW/Blog 
+git status|sed s/[[:space:]]//g >> lines.txt
+sed -i "s/#//g" lines.txt
+lines=`cat lines.txt`
+rm -f lines.txt
+for line in $lines
+do
+  result=$(echo $line |grep "md")
+  if [[ "$result" != "" ]]
+  then
+    result=`echo $result|sed "s/\"//g"`
+    index=`expr index $result "s"` 
+    result=${result:$index-1}
+    #不是以source开头
+    if [ $index -eq 0 ]
+    then
+      dir="/z/DevSoftware/phpStudy2017/PHPTutorial/WWW/Blog/source/"
+    else
+      dir="/z/DevSoftware/phpStudy2017/PHPTutorial/WWW/Blog/"
+    fi
+    path=${dir}${result}
+    flag=`echo $path|grep "source"`
+    if [[ "$flag" != "" ]]
+    then
+      scan $path
+    fi
+  fi
+done
+#git add source/*
+#git commit -m "CURD"
+#git push

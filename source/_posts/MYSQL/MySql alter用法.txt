@@ -1,0 +1,133 @@
+alter table admin_pay_type add erp_code varchar(20) not null,
+add province varchar(30),
+add city varchar(30),
+add bank varchar(30),
+add subbranch varchar(30),
+add account_num varchar(30),
+add account_name varchar(30);
+
+
+alter table a_user ADD(
+`threeconstantsys` varchar(50) DEFAULT NULL COMMENT '三恒系统',
+  `landcertificate` varchar(50) DEFAULT NULL COMMENT '土地证',
+  `buildingplanlicence` varchar(50) DEFAULT NULL COMMENT '建筑工程规划许可证',
+  `buildingexecutionlicence` varchar(50) DEFAULT NULL COMMENT '建筑工程施工许可证',
+  `buildingopenlicence` varchar(50) DEFAULT NULL COMMENT '建筑工程开工许可证',
+  `commodityhousedeallicence` varchar(50) DEFAULT NULL COMMENT '商品房买卖售许可证'
+);
+
+alter table a_user drop threeconstantsys,drop landcertificate;
+
+给表加注释：  ALTER TABLE table_name COMMENT='这是表的注释';
+
+给列加注释：  ALTER table table_name MODIFY `column_name` datetime DEFAULT NULL COMMENT '这是字段的注释'
+
+
+
+举个栗子：alter table inquiry add error_code varchar(3) after add_time;
+说明：alter table + 表名 + add + 要添加的字段 字段类型 +  after  + 要跟随的字段名
+
+alter table t_adviser_info add hold int COMMENT '0持有,1未持有' after stockname
+alter table t_adviser_info add profit int comment "0盈利,1亏损" after hold
+alter table t_adviser_info add weight int comment "0轻仓，1重仓" after profit
+注意 Int，comment，和after 的位置
+
+
+
+alter add命令用来增加表的字段。
+
+alter add命令格式：alter table 表名 add字段 类型 其他;
+
+例如，在表MyClass中添加了一个字段passtest，类型为int(4)，默认值为0：
+   mysql> alter table MyClass add passtest int(4) default '0';
+
+1) 加索引
+   mysql> alter table 表名 add index 索引名 (字段名1[，字段名2 …]);
+
+例子： mysql> alter table employee add index emp_name (name);
+
+2) 加主关键字的索引
+    mysql> alter table 表名 add primary key (字段名);
+
+例子： mysql> alter table employee add primary key(id);
+
+3) 加唯一限制条件的索引
+   mysql> alter table 表名 add unique 索引名 (字段名);
+
+例子： mysql> alter table employee add unique emp_name2(cardnumber);
+
+4) 删除某个索引
+   mysql> alter table 表名 drop index 索引名;
+
+例子： mysql>alter table employee drop index emp_name;
+
+5) 增加字段
+    mysql> ALTER TABLE table_name ADD field_name field_type;
+
+6) 修改原字段名称及类型
+    mysql> ALTER TABLE table_name CHANGE old_field_name new_field_name field_type;
+
+7) 删除字段
+    MySQL ALTER TABLE table_name DROP field_name;
+
+
+    在某一列后面，就用AFTER，放在最后面
+在一张表的最前面，用FIRST关键字
+没有BEFORE关键字
+ALTER [IGNORE] TABLE tbl_name  ADD [COLUMN] column_definition [FIRST | AFTER col_name ]
+
+
+
+ALTER TABLE student  DROP PRIMARY KEY; 
+ALTER TABLE student   ADD CONSTRAINT PK_STUDENT  PRIMARY KEY (id,class);
+SHOW INDEX FROM student;
+ALTER TABLE student  ADD UNIQUE emp_name(age);  
+ALTER TABLE student  DROP INDEX index_name;
+
+
+12.调整字段顺序 
+
+alter table t_app  change gateway_id gateway_id int not null after aid ; #(注意gateway_id出现了2次)
+
+
+1：删除列
+
+ALTER TABLE 【表名字】 DROP 【列名称】
+
+2：增加列
+
+ALTER TABLE 【表名字】 ADD 【列名称】 INT NOT NULL  COMMENT '注释说明'
+
+3：修改列的类型信息
+
+ALTER TABLE 【表名字】 CHANGE 【列名称】【新列名称（这里可以用和原来列同名即可）】 BIGINT NOT NULL  COMMENT '注释说明'
+
+4：重命名列
+
+ALTER TABLE 【表名字】 CHANGE 【列名称】【新列名称】 BIGINT NOT NULL  COMMENT '注释说明'
+
+5：重命名表
+
+ALTER TABLE 【表名字】 RENAME 【表新名字】
+
+ALTER TABLE 【表名字】 RENAME TO 【表新名字】
+
+6：删除表中主键
+
+Alter TABLE 【表名字】 drop primary key
+
+7：添加主键
+
+ALTER TABLE sj_resource_charges ADD CONSTRAINT PK_SJ_RESOURCE_CHARGES PRIMARY KEY (resid,resfromid)
+
+8：添加索引
+
+ALTER TABLE sj_resource_charges add index INDEX_NAME (name);
+
+9: 添加唯一限制条件索引
+
+ALTER TABLE sj_resource_charges add unique emp_name2(cardnumber);
+
+10: 删除索引
+
+alter table tablename drop index emp_name;

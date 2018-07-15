@@ -1,0 +1,10 @@
+查看nginx编译参数：/usr/local/nginx/sbin/nginx -V
+
+查看apache编译参数：cat /usr/local/apache2/build/config.nice
+
+查看mysql编译参数：cat /usr/local/mysql/bin/mysqlbug | grep CONFIGURE_LINE
+
+查看php编译参数：/usr/local/php/bin/php -i | grep configure 或者php-config
+
+
+mysqladmin -V MySQL版本

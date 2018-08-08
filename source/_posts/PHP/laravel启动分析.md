@@ -1,6 +1,6 @@
 ﻿# laravel启动分析
 
-##1. 初始化Application##
+##初始化Application##
 ```
 $app = new Illuminate\Foundation\Application(
     realpath(__DIR__.'/../')
@@ -68,7 +68,7 @@ $app = new Illuminate\Foundation\Application(
     }
 ```
 
-2. 注册共享的Kernel和异常处理器、绑定自己的单例类
+##注册共享的Kernel和异常处理器、绑定自己的单例类##
 
 ```
 $app = new Illuminate\Foundation\Application(
@@ -109,7 +109,7 @@ $app->configureMonologUsing(function ($logger) {
 return $app;
 
 ```
-3、处理请求和响应
+##处理请求和响应##
 
 (1) 解析Illuminate\Contracts\Http\Kernel，实例化App\Http\Kernel
 
@@ -184,6 +184,6 @@ Illuminate\Foundation\Bootstrap\BootProviders::class
 
 
 
-3. 将响应信息发送到浏览器
+##将响应信息发送到浏览器##
 
-4. 处理继承自TerminableMiddleware接口的中间件（Session）并结束应用生命周期
+##处理继承自TerminableMiddleware接口的中间件（Session）并结束应用生命周期##

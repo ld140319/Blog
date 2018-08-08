@@ -1,6 +1,6 @@
 ﻿# laravel启动分析
 
-##初始化Application##
+## 初始化Application ##
 
 ```
 $app = new Illuminate\Foundation\Application(

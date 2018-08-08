@@ -69,7 +69,7 @@ $app = new Illuminate\Foundation\Application(
     }
 ```
 
-##注册共享的Kernel和异常处理器、绑定自己的单例类##
+## 注册共享的Kernel和异常处理器、绑定自己的单例类 ##
 
 ```
 $app = new Illuminate\Foundation\Application(
@@ -111,7 +111,7 @@ return $app;
 
 ```
 
-##处理请求和响应##
+## 处理请求和响应 ##
 
 (1) 解析Illuminate\Contracts\Http\Kernel，实例化App\Http\Kernel
 
@@ -186,6 +186,6 @@ Illuminate\Foundation\Bootstrap\BootProviders::class
 
 
 
-##将响应信息发送到浏览器##
+## 将响应信息发送到浏览器 ##
 
-##处理继承自TerminableMiddleware接口的中间件（Session）并结束应用生命周期##
+## 处理继承自TerminableMiddleware接口的中间件（Session）并结束应用生命周期 ##

@@ -1,6 +1,7 @@
 ﻿# laravel启动分析
 
 ##初始化Application##
+
 ```
 $app = new Illuminate\Foundation\Application(
     realpath(__DIR__.'/../')
@@ -109,6 +110,7 @@ $app->configureMonologUsing(function ($logger) {
 return $app;
 
 ```
+
 ##处理请求和响应##
 
 (1) 解析Illuminate\Contracts\Http\Kernel，实例化App\Http\Kernel

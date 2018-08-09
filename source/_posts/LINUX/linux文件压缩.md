@@ -111,22 +111,39 @@ gzip -d
  
 
 -a或--ascii 使用ASCII文字模式。 
+
 -c或--stdout或--to-stdout 把压缩后的文件输出到标准输出设备，不去更动原始文件。 
+
 -d或--decompress或----uncompress 解开压缩文件。 
+
 -f或--force 强行压缩文件。不理会文件名称或硬连接是否存在以及该文件是否为符号连接。 
--h或--help 在线帮助。 
--l或--list 列出压缩文件的相关信息。 
--L或--license 显示版本与版权信息。 
+
+-h或--help 在线帮助。
+
+-l或--list 列出压缩文件的相关信息。
+
+-L或--license 显示版本与版权信息。
+
 -n或--no-name 压缩文件时，不保存原来的文件名称及时间戳记。 
+
 -N或--name 压缩文件时，保存原来的文件名称及时间戳记。 
+
 -q或--quiet 不显示警告信息。 
+
 -r或--recursive 递归处理，将指定目录下的所有文件及子目录一并处理。 
+
 -S<压缩字尾字符串>或----suffix<压缩字尾字符串> 更改压缩字尾字符串。 
+
 -t或--test 测试压缩文件是否正确无误。 
+
 -v或--verbose 显示指令执行过程。 
+
 -V或--version 显示版本信息。 
--<压缩效率> 压缩效率是一个介于1－9的数值，预设值为"6"，指定愈大的数值，压缩效率就会愈高。 
+
+-<压缩效率> 压缩效率是一个介于1－9的数值，预设值为"6"，指定愈大的数值，压缩效率就会愈高。
+
 --best 此参数的效果和指定"-9"参数相同。 
+
 --fast 此参数的效果和指定"-1"参数相同。
 
 #rar文件处理
@@ -147,27 +164,45 @@ gzip -d
 压缩 
 
 tar –cvf jpg.tar *.jpg //将目录里所有jpg文件打包成tar.jpg 
+
 tar –czf jpg.tar.gz *.jpg //将目录里所有jpg文件打包成jpg.tar后，并且将其用gzip压缩，生成一个gzip压缩过的包，命名为jpg.tar.gz 
+
 tar –cjf jpg.tar.bz2 *.jpg //将目录里所有jpg文件打包成jpg.tar后，并且将其用bzip2压缩，生成一个bzip2压缩过的包，命名为jpg.tar.bz2 
+
 tar –cZf jpg.tar.Z *.jpg //将目录里所有jpg文件打包成jpg.tar后，并且将其用compress压缩，生成一个umcompress压缩过的包，命名为jpg.tar.Z 
+
 rar a jpg.rar *.jpg //rar格式的压缩，需要先下载rar for linux 
+
 zip jpg.zip *.jpg //zip格式的压缩，需要先下载zip for linux
 
 解压
 
 tar –xvf file.tar //解压 tar包 
+
 tar -xzvf file.tar.gz //解压tar.gz 
+
 tar -xjvf file.tar.bz2 //解压 tar.bz2 
+
 tar –xZvf file.tar.Z //解压tar.Z 
+
 unrar e file.rar //解压rar 
+
 unzip file.zip //解压zip 
 
-1、*.tar 用 tar –xvf 解压 
+1、*.tar 用 tar –xvf 解压
+
 2、*.gz 用 gzip -d或者gunzip 解压 
+
 3、*.tar.gz和*.tgz 用 tar –xzf 解压 
+
 4、*.bz2 用 bzip2 -d或者用bunzip2 解压 
+
 5、*.tar.bz2用tar –xjf 解压 
+
 6、*.Z 用 uncompress 解压 
+
 7、*.tar.Z 用tar –xZf 解压 
+
 8、*.rar 用 unrar e解压 
+
 9、*.zip 用 unzip 解压

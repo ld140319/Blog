@@ -398,20 +398,18 @@ BEGIN 和 END 同为awk中的一种 Pattern. 以 BEGIN 为 Pattern的Actions ,�
        main(10, 20)
     }
  
- 一、awk字符串转数字
+##awk字符串转数字
 
- 
-
-[chengmo@centos5 ~]$ awk 'BEGIN{a="100";b="10test10";print (a+b+0);}' 
+```
+awk 'BEGIN{a="100";b="10test10";print (a+b+0);}' 
 110
 
- 
-
 只需要将变量通过”+”连接运算。自动强制将字符串转为整型。非数字变成0，发现第一个非数字字符，后面自动忽略。
-
+```
  
 
 ##awk数字转为字符串
+
 ```
 awk 'BEGIN{a=100;b=100;c=(a""b);print c}'     //100100 
 

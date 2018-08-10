@@ -46,8 +46,6 @@ GNU/Linux发布的AWK目前由自由软件基金会（FSF）进行开发和维�
 
 <h2 id="stream">工作流</h2>
 
-![awk执行流程](awk入门/awk执行流程.jpg)
-
     读取=>执行=>重复前两步
     
     Read
@@ -167,29 +165,27 @@ BEGIN 和 END 同为awk中的一种 Pattern. 以 BEGIN 为 Pattern的Actions ,�
         
         awk '{print}' marks.txt
         awk '{print $0}' marks.txt
-    
-![显示该文件的完整内容](awk入门/显示该文件的完整内容.png)
+
 
     (2)显示含a的行
             
             awk '/a/ {print}' marks.txt
             awk '/a/ {print $0}' marks.txt
     
-![含a的行](awk入门/含a的行.png)
+
 
     (3)显示不含a的行
             
             awk '!/a/ {print}' marks.txt
             awk '!/a/ {print $0}' marks.txt
     
-![不含a的行](awk入门/不含a的行.png)
 
     (4)正则匹配忽略大小写
                 
                 awk 'BEGIN{INGORECASE=1}/a/ {print}' marks.txt
                 awk 'BEGIN{INGORECASE=0}/a/ {print $0}' marks.txt
     
-![匹配时,不区分大小写](awk入门/匹配时,不区分大小写.png)
+
 
 <h2 id="arg">命令行参数</h2>
 
@@ -219,7 +215,7 @@ BEGIN 和 END 同为awk中的一种 Pattern. 以 BEGIN 为 Pattern的Actions ,�
     
     awk -f command.awk one two three four
     
-![命令行参数](awk入门/命令行参数.png)
+
 
 <h2 id="env">使用环境变量</h2>
 
@@ -247,7 +243,7 @@ BEGIN 和 END 同为awk中的一种 Pattern. 以 BEGIN 为 Pattern的Actions ,�
     
     awk -f command.awk 
     
-![使用环境变量](awk入门/使用环境变量.png)
+
 
 <h2 id="operation">运算</h2>
 

@@ -397,11 +397,42 @@ BEGIN 和 END 同为awk中的一种 Pattern. 以 BEGIN 为 Pattern的Actions ,�
     BEGIN {
        main(10, 20)
     }
-    
+ 
+ 一、awk字符串转数字
+
+ 
+
+[chengmo@centos5 ~]$ awk 'BEGIN{a="100";b="10test10";print (a+b+0);}' 
+110
+
+ 
+
+只需要将变量通过”+”连接运算。自动强制将字符串转为整型。非数字变成0，发现第一个非数字字符，后面自动忽略。
+
+ 
+
+##awk数字转为字符串
+```
+awk 'BEGIN{a=100;b=100;c=(a""b);print c}'     //100100 
+
+只需要将变量与””符号连接起来运算即可。
+```
+ 
+
+##awk字符串连接操作
+
+```
+awk 'BEGIN{a="a";b="b";c=(a""b);print c}'  //ab
+awk 'BEGIN{a="a";b="b";c=(a+b);print c}'  //0
+
+字符串连接操作通”二“，”+”号操作符。模式强制将左右2边的值转为 数字类型。然后进行操作。
+```
+
 <h2 id="redirect">输出重定向</h2>
 
  <em style="color:red;">
   print DATA > output-file
+    
   print DATA >> output-file
  </em>
    
@@ -616,9 +647,14 @@ awk output 指令有 print, printf() 二个.
 <h2 id="link">参考链接</h2>
     
 [三十分钟学会AWK](http://blog.jobbole.com/109089/ "三十分钟学会AWK")
+
 [awk实战与总结](http://www.fzb.me/2016-9-27-awk-in-action.html "awk实战与总结")
+
 [见过最好的AWK手册](https://blog.csdn.net/aqi2014/article/details/41218403 "见过最好的AWK手册")
-[awk 用法（使用入门）](https://www.cnblogs.com/emanlee/p/3327576.html#id2808971 "awk 用法（使用入门）") 
-[AWK入门指南](http://awk.readthedocs.io/en/latest/chapter-one.html "AWK入门指南") 
+
+[awk 用法（使用入门）](https://www.cnblogs.com/emanlee/p/3327576.html#id2808971 "awk 用法（使用入门）")
+
+[AWK入门指南](http://awk.readthedocs.io/en/latest/chapter-one.html "AWK入门指南")
+
 [linux下awk内置函数的使用(split/substr/length)](https://www.cnblogs.com/sunada2005/p/3493941.html "linux下awk内置函数的使用(split/substr/length)")   
     

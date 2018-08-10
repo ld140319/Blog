@@ -441,7 +441,9 @@ awk output 指令有 print, printf() 二个.
 
 须注意二点 :
 <em style="color:#43CD80;">
+    
 1.不论 print $1, $2 被执行几次, "sort -k 1" 的执行时间是 "awk程序结束时",
+
 2."sort -k 1" 的执行次数是 "一次".
 </em>
  
@@ -449,8 +451,10 @@ awk output 指令有 print, printf() 二个.
 在 b 语法中, awk将先调用 Shell 命令. 其执行结果将通过 pipe 送入awk程序,以上例而言, <em style="color:red;">awk先让 Shell 执行 "ls",Shell 执行后将结果存于 pipe, awk指令 getline再从 pipe 中读取数据.</em>
 
 使用本语法时应留心: 
+
 <em style="color:#43CD80;">
 1.awk "立刻"调用 Shell 来执行 "ls", 执行次数是一次.
+    
 2.getline 则可能执行多次(若pipe中存在多行数据).
 </em>
 

@@ -460,7 +460,7 @@ awk output 指令有 print, printf() 二个.
 
 
 |语法|位置|由何处读取数据|数据读入后置于|
-|----|--------------|--------------|
+|----|--------------|--------------|--------------|
 |getline var< file|body|所指定的 file|变量 var(var省略时,表示置于$0)|
 |getline var|body|pipe 变量|变量 var(var省略时,表示置于\$0)|
 |getline var|begin/end|见 注一|变量 var(var省略时,表示置于\$0)|

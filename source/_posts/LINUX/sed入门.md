@@ -804,6 +804,25 @@ sed 's/pattern/\n&/g' filename
 sed -e “s/$var1/$var2/g” filename
 ```
 
+## 同时执行多个动作
+
+```
+1. 用;好分割
+
+sed -i '/^$/d;s/111/AAA/;s/1111/BBB/' input.txt
+
+2. -e 
+
+sed -e "s/0000/kkk/" -e "s/AAA/aaa/g"  -i -e  "/test/d" input.txt
+
+有一个使用了-i则所有的修改都会影响原文件
+```
+
+## 字符替换(y替换)
+
+```
+echo "sorry"|sed 'y/ory/ABC/'       #一一对应替换（sABBC）
+```
 <h2 id="expression">正则表达式</h2>
 
 1.^ 匹配行的开始

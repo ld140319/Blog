@@ -731,7 +731,7 @@ cat /tmp/input.txt
  sed -i 's/$/&tail/' /tmp/input.txt  
 ```
 
-__1. &作反向引用，代替前面的匹配项__
+__1. &作反向引用，代替前面的匹配项(这个正则表达式匹配的这一行的部分内容)__
 
 __2. "^"代表行首，"$"代表行尾__
 
@@ -774,6 +774,34 @@ cat tmp.txt | sed 's/^/"&/g' | sed 's/$/",&/g'
 "23456789",
 "23456789",
 
+```
+
+## 删除行首空格
+
+```
+sed 's/^[ ]*//g' filename
+
+sed 's/^ *//g' filename
+
+sed 's/^[[:space:]]*//g' filename
+
+```
+
+## 行后和行前添加新行
+
+```
+
+sed 's/pattern/&\n/g' filename
+
+sed 's/pattern/\n&/g' filename
+
+
+```
+
+## 使用变量替换(使用双引号)
+
+```
+sed -e “s/$var1/$var2/g” filename
 ```
 
 <h2 id="expression">正则表达式</h2>

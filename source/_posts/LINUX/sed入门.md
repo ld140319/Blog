@@ -823,6 +823,93 @@ sed -e "s/0000/kkk/" -e "s/AAA/aaa/g"  -i -e  "/test/d" input.txt
 ```
 echo "sorry"|sed 'y/ory/ABC/'       #一一对应替换（sABBC）
 ```
+
+## 指定开始替换位置
+
+```
+echo sksksksksksk | sed 's/sk/SK/2g'   //skSKSKSKSKSK
+
+echo sksksksksksk | sed 's/sk/SK/3g'   //skskSKSKSKSK
+
+echo sksksksksksk | sed 's/sk/SK/4g'   //skskskSKSKSK
+```
+## 指定定界符
+
+```
+echo "testliuzemingtest"|sed 's:test:TEXT:g'   //TEXTliuzemingTEXT
+
+echo "testliuzemingtest"|sed 's%test%TEXT%g'
+
+cat /etc/passwd|sed 's/\/bin/\/usr\/local\/bin/g'
+
+/ 在sed中作为定界符使用，也可以使用任意的定界符
+定界符出现在样式内部时，需要进行转义
+```
+
+##已匹配字符串标记&
+
+```
+正则表达式 \w\+ 匹配每一个单词，使用 [&] 替换它，& 对应于之前所匹配到的单词
+
+echo this is a test line | sed 's/\w\+/[&]/g' //[this] [is] [a] [test] [line]
+```
+
+## 子串匹配标记\1
+
+```
+echo this is digit 7 in a number | sed 's/digit \([0-9]\)/\1/'   //this is 7 in a number
+
+echo aaa BBB | sed 's/\([a-z]\+\) \([A-Z]\+\)/\2 \1/'            //BBB aaa
+
+echo "loveable"|sed -n 's/\(love\)able/\1rs/p'                   //lovers
+```
+
+## 下一个：n命令
+
+```
+cat test.txt |sed -n '/t/{ n; p;}'        //打印包含字母t的下一行
+
+如果test被匹配，则移动到匹配行的下一行，替换这一行的aa，变为bb，并打印该行，然后继续：
+
+sed '/test/{ n; s/aa/bb/; }' file
+```
+
+## 从文件读入：r命令
+
+```
+sed '/t/r /etc/passwd' test.txt
+
+file里的内容被读进来，显示在与test匹配的行后面，如果匹配多行，则file的内容将显示在所有匹配行的下面
+```
+
+## 写入文件：w命令  
+
+```
+sed -n '/test/w file' example
+
+sed '/t/w write.txt' test.txt
+
+在example中所有包含test的行都被写入file里
+```
+
+## 保持和获取：h命令和G命令
+
+```
+sed -e '/test/h' -e '$G' file
+
+最后一个包含test的行都被复制并追加到该文件的末尾
+```
+
+## 保持和互换：h命令和x命令
+
+```
+
+互换模式空间和保持缓冲区的内容。也就是把最后一个包含test与check的行互换：
+
+sed -e '/test/h' -e '/check/x' file
+
+
+```
 <h2 id="expression">正则表达式</h2>
 
 1.^ 匹配行的开始

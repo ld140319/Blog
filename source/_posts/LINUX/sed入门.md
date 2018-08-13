@@ -873,3 +873,58 @@ sed -e “s/$var1/$var2/g” filename
 12.\w ， \W单个单词、非单词
 
 不支持\d
+
+
+```
+1、定位行：
+sed -n '12,~3p' pass #从第12行开始，直到下一个3的倍数行（12-15行）
+sed -n '12,+4p' pass #从第12行开始，连续4行（12-16行）
+sed -n '12~3p' pass #从第12行开始，间隔3行输出一次（12，15，18，21...）
+sed -n '10,$p' pass   #从第10行至结尾
+sed -n '4!p' pass   #除去第4行
+
+2、正则：'/正则式/'
+sed -n '/root/p' /etc/passwd
+sed -n '/^root/p' /etc/passwd
+sed -n '/bash$/p' /etc/passwd
+sed -n '/ro.t/p' /etc/passwd
+sed -n '/ro*/p' /etc/passwd
+sed -n '/[ABC]/p' /etc/passwd
+sed -n '/[A-Z]/p' /etc/passwd
+sed -n '/[^ABC]/p' /etc/passwd
+sed -n '/^[^ABC]/p' /etc/passwd
+sed -n '/\<root/p' /etc/passwd
+sed -n '/root\>/p' /etc/passwd
+
+3、扩展正则：
+sed -n '/root\|yerik/p' /etc/passwd #拓展正则需要转义
+sed -nr '/root|yerik/p' /etc/passwd #加-r参数支持拓展正则
+sed -nr '/ro(ot|ye)rik/p' /etc/passwd #匹配rootrik和royerik单词
+sed -nr '/ro?t/p' /etc/passwd   #?匹配0-1次前导字符
+sed -nr '/ro+t/p' /etc/passwd   #匹配1-n次前导字符
+sed -nr '/ro{2}t/p' /etc/passwd   #匹配2次前导字符
+sed -nr '/ro{2,}t/p' /etc/passwd   #匹配多于2次前导字符
+sed -nr '/ro{2，4}t/p' /etc/passwd #匹配2-4次前导字符
+sed -nr '/(root)*/p' /etc/passwd   #匹配0-n次前导单词
+
+4、sed编辑（对行的插入、删除、替换操作）
+sed '/root/a admin' /etc/passwd   #在root行后追加一个admin行
+sed '/root/i admin' /etc/passwd   #在root行前插入一个admin
+sed '/root/c admin' /etc/passwd   #将root行替换为admin
+sed '/root/d' /etc/passwd    #删除含有root的行
+
+s替换
+sed -n 's/root/admin/p' /etc/passwd
+sed -n 's/root/admin/2p' /etc/passwd        #在每行的第2个root作替换
+sed -n 's/root/admin/gp' /etc/passwd
+sed -n '1,10 s/root/admin/gp' /etc/passwd
+sed -n 's/root/AAA&BBB/2p' /etc/passwd       #将root替换成AAArootBBB，&作反向引用，代替前面的匹配项
+sed -ne 's/root/AAA&BBB/' -ne 's/bash/AAA&BBB/p' /etc/passwd #-e将多个命令连接起来，将root或bash行作替换
+sed -n 's/root/AAA&BBB/;s/bash/AAA&BBB/p' /etc/passwd   #与上命令功能相同
+sed -nr 's/(root)(.*)(bash)/\3\2\1/p' /etc/passwd     #将root与bash位置替换，两标记替换
+或sed -n 's/root.∗bash/\3\2\1/p' /etc/passwd
+bash:x:0:0:root:/root:/bin/root
+
+y替换
+echo "sorry"|sed 'y/ory/ABC/' #一一对应替换（sABBC）
+````

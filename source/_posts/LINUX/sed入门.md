@@ -842,6 +842,8 @@ echo "testliuzemingtest"|sed 's%test%TEXT%g'
 
 cat /etc/passwd|sed 's/\/bin/\/usr\/local\/bin/g'
 
+echo "app\Http\Controllers\ProfileController.php"|sed 's%\\%/%g'     //app/Http/Controllers/ProfileController.php
+
 / 在sed中作为定界符使用，也可以使用任意的定界符
 定界符出现在样式内部时，需要进行转义
 ```

@@ -696,6 +696,222 @@ echo "/bin/sed" | sed 's!/bin/sed!/home/mylxsw/src/sed/sed-4.2.2/sed!'
         
 &nbsp;&nbsp;&nbsp;上面的示例中在l命令后跟了一个数字25，它告诉SED按照每行25个字符进行换行，如果指定这个数字为0的话，则只有在存在换行符的情况下才进行换行。   
 
+##  sed在指定字符前后添加内容
+
+```
+cat /tmp/input.txt
+
+    null
+    000011112222
+
+    test
+    
+ (1) 在1111之前添加AAA,方法如下:
+ 
+ sed -i 's/指定的字符/要插入的字符&/'  文件
+ 
+ sed -i  's/1111/AAA&/' /tmp/input.txt 
+ 
+ (2)  在1111之后添加BBB，方法如下:
+ 
+ sed -i 's/指定的字符/&要插入的字符/'  文件
+ 
+ sed -i  's/1111/&BBB/' /tmp/input.txt
+  
+ (3)  (1) 删除所有空行；(2) 一行中，如果包含"1111"，则在"1111"前面插入"AAA"，在"11111"后面插入"BBB"
+ 
+ sed '/^$/d;s/1111/AAA&/;s/1111/&BBB/' /tmp/input.txt
+
+ (4)  在每行的头添加字符，比如"HEAD"，命令如下:
+ 
+ sed -i 's/^/HEAD&/' /tmp/input.txt
+ 
+ (5)  在每行的尾部添加字符，比如"tail"，命令如下:
+ 
+ sed -i 's/$/&tail/' /tmp/input.txt  
+```
+
+__1. &作反向引用，代替前面的匹配项(这个正则表达式匹配的这一行的部分内容)__
+
+__2. "^"代表行首，"$"代表行尾__
+
+__3. 's/$/&tail/g'中的字符g代表每行出现的字符全部替换，如果想在特定字符处添加，g就有用了，否则只会替换每行第一个，而不继续往后找。__
+
+## 删除文件每一行的前k个字符、在文本的行尾或行首添加字符
+
+```
+cat tmp.txt 
+123456789
+
+# 删除每行第一个字符
+sed 's/.//' tmp.txt 
+
+23456789
+
+# 删除每行前两个字符
+sed 's/..//' tmp.txt 
+
+3456789
+
+# 删除每行前k个字符，例如k=5
+sed 's/.\{5\}//' tmp.txt 
+
+6789
+
+
+cat tmp.txt 
+23456789
+
+# 在行首添加双引号(")
+cat tmp.txt | sed 's/^/"&/g'
+"23456789
+"23456789
+"23456789
+
+# 在行尾添加双引号和逗号(",)
+cat tmp.txt | sed 's/^/"&/g' | sed 's/$/",&/g'
+"23456789",
+"23456789",
+"23456789",
+
+```
+
+## 删除行首空格
+
+```
+sed 's/^[ ]*//g' filename
+
+sed 's/^ *//g' filename
+
+sed 's/^[[:space:]]*//g' filename
+
+```
+
+## 行后和行前添加新行
+
+```
+
+sed 's/pattern/&\n/g' filename
+
+sed 's/pattern/\n&/g' filename
+
+
+```
+
+## 使用变量替换(使用双引号)
+
+```
+sed -e “s/$var1/$var2/g” filename
+```
+
+## 同时执行多个动作
+
+```
+1. 用;好分割
+
+sed -i '/^$/d;s/111/AAA/;s/1111/BBB/' input.txt
+
+2. -e 
+
+sed -e "s/0000/kkk/" -e "s/AAA/aaa/g"  -i -e  "/test/d" input.txt
+
+有一个使用了-i则所有的修改都会影响原文件
+```
+
+## 字符替换(y替换)
+
+```
+echo "sorry"|sed 'y/ory/ABC/'       #一一对应替换（sABBC）
+```
+
+## 指定开始替换位置
+
+```
+echo sksksksksksk | sed 's/sk/SK/2g'   //skSKSKSKSKSK
+
+echo sksksksksksk | sed 's/sk/SK/3g'   //skskSKSKSKSK
+
+echo sksksksksksk | sed 's/sk/SK/4g'   //skskskSKSKSK
+```
+## 指定定界符
+
+```
+echo "testliuzemingtest"|sed 's:test:TEXT:g'   //TEXTliuzemingTEXT
+
+echo "testliuzemingtest"|sed 's%test%TEXT%g'
+
+cat /etc/passwd|sed 's/\/bin/\/usr\/local\/bin/g'
+
+echo "app\Http\Controllers\ProfileController.php"|sed 's%\\%/%g'     //app/Http/Controllers/ProfileController.php
+
+/ 在sed中作为定界符使用，也可以使用任意的定界符
+定界符出现在样式内部时，需要进行转义
+```
+
+##已匹配字符串标记&
+
+```
+正则表达式 \w\+ 匹配每一个单词，使用 [&] 替换它，& 对应于之前所匹配到的单词
+
+echo this is a test line | sed 's/\w\+/[&]/g' //[this] [is] [a] [test] [line]
+```
+
+## 子串匹配标记\1
+
+```
+echo this is digit 7 in a number | sed 's/digit \([0-9]\)/\1/'   //this is 7 in a number
+
+echo aaa BBB | sed 's/\([a-z]\+\) \([A-Z]\+\)/\2 \1/'            //BBB aaa
+
+echo "loveable"|sed -n 's/\(love\)able/\1rs/p'                   //lovers
+```
+
+## 下一个：n命令
+
+```
+cat test.txt |sed -n '/t/{ n; p;}'        //打印包含字母t的下一行
+
+如果test被匹配，则移动到匹配行的下一行，替换这一行的aa，变为bb，并打印该行，然后继续：
+
+sed '/test/{ n; s/aa/bb/; }' file
+```
+
+## 从文件读入：r命令
+
+```
+sed '/t/r /etc/passwd' test.txt
+
+file里的内容被读进来，显示在与test匹配的行后面，如果匹配多行，则file的内容将显示在所有匹配行的下面
+```
+
+## 写入文件：w命令  
+
+```
+sed -n '/test/w file' example
+
+sed '/t/w write.txt' test.txt
+
+在example中所有包含test的行都被写入file里
+```
+
+## 保持和获取：h命令和G命令
+
+```
+sed -e '/test/h' -e '$G' file
+
+最后一个包含test的行都被复制并追加到该文件的末尾
+```
+
+## 保持和互换：h命令和x命令
+
+```
+
+互换模式空间和保持缓冲区的内容。也就是把最后一个包含test与check的行互换：
+
+sed -e '/test/h' -e '/check/x' file
+
+
+```
 <h2 id="expression">正则表达式</h2>
 
 1.^ 匹配行的开始
@@ -765,3 +981,58 @@ echo "/bin/sed" | sed 's!/bin/sed!/home/mylxsw/src/sed/sed-4.2.2/sed!'
 12.\w ， \W单个单词、非单词
 
 不支持\d
+
+
+```
+1、定位行：
+sed -n '12,~3p' pass #从第12行开始，直到下一个3的倍数行（12-15行）
+sed -n '12,+4p' pass #从第12行开始，连续4行（12-16行）
+sed -n '12~3p' pass #从第12行开始，间隔3行输出一次（12，15，18，21...）
+sed -n '10,$p' pass   #从第10行至结尾
+sed -n '4!p' pass   #除去第4行
+
+2、正则：'/正则式/'
+sed -n '/root/p' /etc/passwd
+sed -n '/^root/p' /etc/passwd
+sed -n '/bash$/p' /etc/passwd
+sed -n '/ro.t/p' /etc/passwd
+sed -n '/ro*/p' /etc/passwd
+sed -n '/[ABC]/p' /etc/passwd
+sed -n '/[A-Z]/p' /etc/passwd
+sed -n '/[^ABC]/p' /etc/passwd
+sed -n '/^[^ABC]/p' /etc/passwd
+sed -n '/\<root/p' /etc/passwd
+sed -n '/root\>/p' /etc/passwd
+
+3、扩展正则：
+sed -n '/root\|yerik/p' /etc/passwd #拓展正则需要转义
+sed -nr '/root|yerik/p' /etc/passwd #加-r参数支持拓展正则
+sed -nr '/ro(ot|ye)rik/p' /etc/passwd #匹配rootrik和royerik单词
+sed -nr '/ro?t/p' /etc/passwd   #?匹配0-1次前导字符
+sed -nr '/ro+t/p' /etc/passwd   #匹配1-n次前导字符
+sed -nr '/ro{2}t/p' /etc/passwd   #匹配2次前导字符
+sed -nr '/ro{2,}t/p' /etc/passwd   #匹配多于2次前导字符
+sed -nr '/ro{2，4}t/p' /etc/passwd #匹配2-4次前导字符
+sed -nr '/(root)*/p' /etc/passwd   #匹配0-n次前导单词
+
+4、sed编辑（对行的插入、删除、替换操作）
+sed '/root/a admin' /etc/passwd   #在root行后追加一个admin行
+sed '/root/i admin' /etc/passwd   #在root行前插入一个admin
+sed '/root/c admin' /etc/passwd   #将root行替换为admin
+sed '/root/d' /etc/passwd    #删除含有root的行
+
+s替换
+sed -n 's/root/admin/p' /etc/passwd
+sed -n 's/root/admin/2p' /etc/passwd        #在每行的第2个root作替换
+sed -n 's/root/admin/gp' /etc/passwd
+sed -n '1,10 s/root/admin/gp' /etc/passwd
+sed -n 's/root/AAA&BBB/2p' /etc/passwd       #将root替换成AAArootBBB，&作反向引用，代替前面的匹配项
+sed -ne 's/root/AAA&BBB/' -ne 's/bash/AAA&BBB/p' /etc/passwd #-e将多个命令连接起来，将root或bash行作替换
+sed -n 's/root/AAA&BBB/;s/bash/AAA&BBB/p' /etc/passwd   #与上命令功能相同
+sed -nr 's/(root)(.*)(bash)/\3\2\1/p' /etc/passwd     #将root与bash位置替换，两标记替换
+或sed -n 's/root.∗bash/\3\2\1/p' /etc/passwd
+bash:x:0:0:root:/root:/bin/root
+
+y替换
+echo "sorry"|sed 'y/ory/ABC/' #一一对应替换（sABBC）
+````

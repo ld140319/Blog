@@ -28,7 +28,9 @@ END{
 
 ```
 sub(/^[[:blank:]]*/,"",变量)  是去掉变量左边的空白符
+
 sub(/[[:blank:]]*$/,"",变量) 是去掉变量右边的空白符
+
 gsub(/[[:blank:]]*/,"",变量) 是去掉变量中所有的空白符
 
 示例：
@@ -60,6 +62,7 @@ awk 'BEGIN{
 ## 数组排序
 
 **(1) 值排序
+
 asort[src_arr, dest_arr] 默认返回值是：原数组长度，传入参数dscarr则将排序后数组赋值给dscarr**
 
 ```
@@ -81,7 +84,9 @@ awk 'BEGIN{
 **asort只对value进行了排序，因此丢掉原先键值key**
 
 **(2) 键排序
+
 asorti[src_arr, dest_arr]  默认返回值是：原数组长度，传入参数dscarr则将排序后数组赋值给dscarr**
+
 ```
 awk 'BEGIN{
   src_arr["d"]=100;

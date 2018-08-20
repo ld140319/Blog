@@ -1,11 +1,17 @@
 ﻿# history
 
 n : 显示最新的多少条history
+
 -c：clear the history list by deleting all of the entries. 清空history list。可以用 -r 选项再读回来。
+
 -d offset：delete the history entry at offset OFFSET. 删除指定位置的命令历史
+
 -a：append history lines from this session to the history file. 将新增的history追加到history file。
+
 -r：read the history file and append the contents to the history list. 从history file读取命令并追加到history list。
+
 -n：read all history lines not already read from the history file.
+
 -w：write the current history to the history file and append them to the history list. 将当前的history写入history file。
 
 

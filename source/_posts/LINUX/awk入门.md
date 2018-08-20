@@ -191,7 +191,7 @@ BEGIN 和 END 同为awk中的一种 Pattern. 以 BEGIN 为 Pattern的Actions ,�
 
 <em style="color:red;">
     ARGC:参数个数
-    ARGV:参数数组
+    ARGV:参数
 </em>
     
     (1)命令行运行
@@ -347,6 +347,7 @@ BEGIN 和 END 同为awk中的一种 Pattern. 以 BEGIN 为 Pattern的Actions ,�
        array["1,1"] = 500;
        array["1,2"] = 600;
      
+       #awk仅仅支持一维数组
        # print array elements
        print "array[0,0] = " array["0,0"];
        print "array[0,1] = " array["0,1"];
@@ -354,6 +355,14 @@ BEGIN 和 END 同为awk中的一种 Pattern. 以 BEGIN 为 Pattern的Actions ,�
        print "array[1,0] = " array["1,0"];
        print "array[1,1] = " array["1,1"];
        print "array[1,2] = " array["1,2"];
+    }'
+    
+    #delete删除数组元素
+    awk 'BEGIN {
+       fruits["mango"] = "yellow";
+       fruits["orange"] = "orange";
+       delete fruits["orange"];
+       print fruits["orange"]
     }'
 
     (11)正则表达式操作符

@@ -2,7 +2,7 @@
 
 平时看一下比较实用的知识点，容易忘记，记录在这个仓库中，便于自己查阅
 
-- [Linux](LINUX/REAMDE.md)
+- [Linux](source/_posts/LINUX/REAMDE.md)
 
   - [awk常见使用](LINUX/awk常见使用.md)
   - [sed入门](LINUX/sed入门.md)
